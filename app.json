@@ -1,0 +1,12 @@
+{
+  "name": "pilpal",
+  "displayName": "pilpal",
+  "expo": {
+    "name": "pilpal",
+    "slug": "pilpal",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
