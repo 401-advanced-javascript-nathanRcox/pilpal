@@ -1,5 +1,7 @@
 # PilPal App
 
+## Author: Nathan Cox, Ashley Moore & Dina Ayoub
+
 ## Summary
 
 1. Name: PilPal
@@ -31,4 +33,16 @@
 2. Add an as-needed med (e.g., anxiety meds)
 3. Additional users or patients
 4. ACL
-5. Identify the pill by photograph and add it that way.
+5. Identify the pill by photograph and add it that way
+
+## Setup
+
+### How to initialize/run your application (where applicable)
+
+- `npm start`
+
+### Tests (not currently working)
+
+- `npm test`
+
+### Diagrams
