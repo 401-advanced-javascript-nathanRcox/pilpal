@@ -46,3 +46,7 @@
 - `npm test`
 
 ### Diagrams
+
+#### Wireframes
+
+![Wireframes](assets/wireframes.png)
