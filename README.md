@@ -50,3 +50,7 @@
 #### Wireframes
 
 ![Wireframes](assets/wireframes.png)
+
+#### UML
+
+![UML](assets/uml.png)
