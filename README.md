@@ -61,14 +61,11 @@
 
 ![Wireframes 2 - Medication Tracking](assets/wireframes2.png)
 
-### UML
+### Domain Modeling
 
 ![UML](assets/uml.png)
+![React Components and Actions](assets/components.png)
 
 ### Database modeling
 
 ![Relational database][assets/relational_db.png]
-
-### React components & actions
-
-![React Components and Actions](assets/components.png)
