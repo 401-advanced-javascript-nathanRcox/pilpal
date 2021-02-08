@@ -1,5 +1,5 @@
 
-//category reducer
+//medication reducer
 let initialState = {
   medications: []
 }
