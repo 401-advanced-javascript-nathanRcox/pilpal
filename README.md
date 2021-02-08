@@ -31,9 +31,13 @@
 
 1. Reminders
 2. Add an as-needed med (e.g., anxiety meds)
-3. Additional users or patients
+3. Additional users or patients to make this work for healthcare workers who take care of multiple people
 4. ACL
 5. Identify the pill by photograph and add it that way
+6. The ability to edit/delete medications and medication history
+7. Sign out
+8. Automatically check boxes on the Take Medication page if they've taken that medication for that time slot
+9. On the take medication page, only show the meds to take for that time range.
 
 ## Setup
 
@@ -45,12 +49,26 @@
 
 - `npm test`
 
-### Diagrams
+## Diagrams
 
-#### Wireframes
+### Wireframes
 
-![Wireframes](assets/wireframes.png)
+#### Sign up / Sign in / Sign Out
 
-#### UML
+![Wireframes 1 - Sign up/in/out](assets/wireframes1.png)
+
+#### Add Medication / Take Medication / Medication History
+
+![Wireframes 2 - Medication Tracking](assets/wireframes2.png)
+
+### UML
 
 ![UML](assets/uml.png)
+
+### Database modeling
+
+![Relational database][assets/relational_db.png]
+
+### React components & actions
+
+![React Components and Actions](assets/components.png)
