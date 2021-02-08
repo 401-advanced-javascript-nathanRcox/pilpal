@@ -2,10 +2,10 @@ import React, { useEffect, setState, useState } from 'react';
 import { Button, TextInput, Text } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { signIn, signUp } from '../store/user-reducer';
+import { signIn } from '../store/user-reducer';
 // import CookieManager from '@react-native-cookies/cookies';
 
-const mapDispatchToProps = { signIn, signUp };
+const mapDispatchToProps = { signIn };
 
 function SignIn(props) {
   const [username, setUsername] = useState('');

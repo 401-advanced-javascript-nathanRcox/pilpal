@@ -1,5 +1,7 @@
 import axios from 'axios';
-const REACT_NATIVE_API = 'https://pilpal-server.herokuapp.com';
+import { ActionSheetIOS } from 'react-native';
+// const REACT_NATIVE_API = 'https://pilpal-server.herokuapp.com';
+import { REACT_NATIVE_API } from '@env';
 
 //user reducer
 let initialState = {
@@ -31,7 +33,21 @@ const userReducer = (state = initialState, action) => {
   switch (type) {
     case 'SIGNUP':
       console.log("payload", payload);
-
+      axios.post(REACT_NATIVE_API + '/signup', {
+        username: payload.username,
+        password: payload.password
+      })
+        .then(result => {
+          console.log(result);
+          let user = {
+            id: result.data.user._id,
+            username: result.data.user.username,
+            role: result.data.user.role,
+            token: result.data.token
+          };
+          console.log({ user });
+          return { ...state, user };
+        })
       //todo: do an API call here
       //save the auth token in a cookie
       return payload;
