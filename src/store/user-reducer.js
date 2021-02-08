@@ -1,5 +1,5 @@
 
-//category reducer
+//user reducer
 let initialState = {
 }
 
