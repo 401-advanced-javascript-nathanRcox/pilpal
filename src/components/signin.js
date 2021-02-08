@@ -1,20 +1,56 @@
 import React, { useEffect, setState, useState } from 'react';
-import { Button, TextInput, Text, View } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { Button, TextInput, Text } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
+import { signIn, signUp } from '../store/user-reducer';
+// import CookieManager from '@react-native-cookies/cookies';
 
-export default function SignIn() {
-  const [text, setText] = useState('');
+const mapDispatchToProps = { signIn, signUp };
+
+function SignIn(props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    //getPermissions();
+    //check if user is signed in. If yes, skip the authentication requirement
+    //get from cookie
+    // let token = CookieManager.get('token');
+    // console.log('TOKEN = ', token);
+    //else do nothing.
   }, []);
 
+  const go = () => {
+    try {
+      props.signIn({
+        username,
+        password
+      });
+      // console.log(props.user)
+    }
+    catch (error) {
+      setErrorMessage(error.message);
+    }
+  }
   return (
-    <TextInput
-      label="Email"
-      value={text}
-      onChangeText={text => setText(text)} />
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        label="Email"
+        value={username}
+        keyboardType="email-address"
+        onChangeText={user => setUsername(user)} />
+      <TextInput
+        style={styles.input}
+        label="Password"
+        secureTextEntry={true}
+        value={password}
+        onChangeText={password => setPassword(password)} />
+      <Text>{errorMessage}</Text>
+      <Button mode="contained" onPress={() => go()}>
+        Sign In
+      </Button>
+    </View>
   )
 }
 
@@ -23,8 +59,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'stretch',
-    justifyContent: 'center',
-    width: '100%'
+    textAlign: "center",
+    width: '100%',
+    margin: "auto",
+    padding: 20
   },
   header: {
     marginTop: 16,
@@ -40,13 +78,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline"
   },
-
-  /*
-  button: {
-    backgroundColor: '#eee',
-    color: '#000'
-  },
-  tableHeader: {
+  input: {
+  }
+  /*tableHeader: {
     fontSize: 18,
     padding: 5
   },
@@ -57,3 +91,10 @@ const styles = StyleSheet.create({
     color: '#20232a'
   }*/
 });
+
+const mapStateToProps = state => ({
+  user: state.userReducer
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

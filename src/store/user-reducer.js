@@ -1,16 +1,23 @@
+import axios from 'axios';
+const REACT_NATIVE_API = 'https://pilpal-server.herokuapp.com';
 
 //user reducer
 let initialState = {
+  id: '',
+  username: '',
+  role: '',
+  token: ''
 }
 
-export const signup = (newUser) => {
+export const signUp = (newUser) => {
   return {
     type: 'SIGNUP',
     payload: newUser
   }
 }
 
-export const signin = (user) => {
+export const signIn = (user) => {
+  console.log(user);
   return {
     type: 'SIGNIN',
     payload: user
@@ -18,14 +25,41 @@ export const signin = (user) => {
 }
 
 const userReducer = (state = initialState, action) => {
+  console.log('STATE = ', state);
   let { type, payload } = action;
+  console.log(payload);
   switch (type) {
     case 'SIGNUP':
+      console.log("payload", payload);
+
       //todo: do an API call here
-      return { payload };
+      //save the auth token in a cookie
+      return payload;
     case 'SIGNIN':
       //todo: do an API call
-      return { payload };
+      console.log("payload", payload);
+      axios.post(REACT_NATIVE_API + '/signin', {}, {
+        auth: {
+          username: payload.username,
+          password: payload.password
+        }
+      })
+        .then((result) => {
+          console.log({ result })
+          let user = {
+            id: result.data.user._id,
+            username: result.data.user.username,
+            role: result.data.user.role,
+            token: result.data.token
+          };
+          console.log({ user });
+          return { ...state, user };
+        });
+      return state;
+      break;
+    //save the auth token in a cookie
+
+    //return payload;
     default:
       return state;
   }
