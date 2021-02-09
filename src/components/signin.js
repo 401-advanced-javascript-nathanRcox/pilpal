@@ -16,16 +16,17 @@ function SignIn(props) {
     //check if user is signed in. If yes, skip the authentication requirement
     //get from cookie
     // let token = CookieManager.get('token');
-    // console.log('TOKEN = ', token);
+    // console.log('User = ', props.user);
     //else do nothing.
   }, []);
 
-  const go = () => {
+  const go = async () => {
     try {
-      props.signIn({
+      await props.signIn({
         username,
         password
       });
+      console.log('STATE AFTER SIGN IN', props.user);
       // console.log(props.user)
     }
     catch (error) {
@@ -38,8 +39,7 @@ function SignIn(props) {
         style={styles.input}
         label="Username"
         value={username}
-        autoCapitalize = 'none'
-        // keyboardType="email-address"
+        autoCapitalize="none"
         onChangeText={user => setUsername(user)} />
       <TextInput
         style={styles.input}

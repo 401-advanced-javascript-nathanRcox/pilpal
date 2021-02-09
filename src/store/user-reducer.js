@@ -10,19 +10,58 @@ let initialState = {
   role: '',
   token: ''
 }
+// export const get = () => dispatch => {
+//   console.log('iN GET ----------------=')
+//   return superagent.get('https://dina-auth-api.herokuapp.com/api/v1/products')
+//     .then(response => {
+//       response.body.forEach(product => {
+//         product.inCart = 0;
+//       });
+//       dispatch(getProducts({ products: response.body }));;
+//     })
+// }
 
-export const signUp = (newUser) => {
+// const getProducts = payload => {
+//   return {
+//     type: 'GET',
+//     payload: payload
+//   }
+// }
+
+export const signUp = (newUser) => dispatch => {
   return {
     type: 'SIGNUP',
     payload: newUser
   }
 }
 
-export const signIn = (user) => {
-  console.log('User Sign-in:', user);
+export const signIn = (user) => dispatch => {
+  console.log(user);
+
+  return axios.post(REACT_NATIVE_API + '/signin', {}, {
+    auth: {
+      username: user.username,
+      password: user.password
+    }
+  })
+    .then(result => {
+      console.log({ result })
+      let user = {
+        id: result.data.user._id,
+        username: result.data.user.username,
+        role: result.data.user.role,
+        token: result.data.token
+      };
+      dispatch(getSignIn({ user }));;
+
+    });
+
+}
+
+const getSignIn = payload => {
   return {
     type: 'SIGNIN',
-    payload: user
+    payload
   }
 }
 
@@ -52,28 +91,9 @@ const userReducer = (state = initialState, action) => {
       return payload;
 
     case 'SIGNIN':
-      //todo: do an API call
-      // console.log("payload", payload);
-      let user;
-      axios.post(REACT_NATIVE_API + '/signin', {}, {
-        auth: {
-          username: payload.username,
-          password: payload.password
-        }
-      })
-        .then((result) => {
-          // console.log('Result.data:', result.data )
-          user = {
-            id: result.data.user._id,
-            username: result.data.user.username,
-            role: result.data.user.role,
-            token: result.data.token
-          };
-          console.log({ user });
-        });
-        console.log('User in POST after update:', user);
-      return {...state, user};
-      // break;
+      console.log("payload", payload);
+      return payload;
+      break;
     //save the auth token in a cookie
 
     //return payload;
