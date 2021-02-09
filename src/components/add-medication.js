@@ -5,28 +5,25 @@ import { TextInput, Button } from 'react-native-paper';
 
 const mapDispatchToProps = { addMedication };
 
-function Medication(props) {
+function Medication(props, { navigation }) {
 
   const [medName, setMedName] = useState('');
   const [dosage, setDosage] = useState('');
   const [frequency, setFrequency] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
   const [medNote, setMedNote] = useState('');
-  // const [id, setUserId] = useState(props.user.id);
 
-  
   const newMedication = () => {
-    
+
     let medObject = { user_id: props.user.id, token: props.user.token, medName, dosage, frequency, timeOfDay, medNote };
     console.log('MedObject on Medication:', medObject);
     props.addMedication(medObject);
   }
 
-  useEffect(() => {console.log('Props on Medications:', props)}, [props]);
 
   return (
     <>
-          <TextInput
+      <TextInput
         label="Name of Medication"
         value={medName}
         onChangeText={text => setMedName(text)}
@@ -52,7 +49,7 @@ function Medication(props) {
         onChangeText={text => setMedNote(text)}
       />
       <Button onPress={() => newMedication()}>Add a Medication</Button>
-      </>
+    </>
   )
 }
 

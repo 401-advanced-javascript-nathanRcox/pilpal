@@ -3,11 +3,15 @@ import { Button, TextInput, Text } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn } from '../store/user-reducer';
+import { changePage } from '../store/page-reducer';
 // import CookieManager from '@react-native-cookies/cookies';
 
-const mapDispatchToProps = { signIn };
+const mapDispatchToProps = { signIn, changePage };
 
 function SignIn(props) {
+  //todo: if the user is already signed in, change page to add medication page
+
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -69,10 +73,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingVertical: 5,
     paddingTop: 45,
-    // borderWidth: 4,
-    // borderColor: "#20232a",
-    // borderRadius: 6,
-    backgroundColor: '#fff', //"#61dafb",
+    backgroundColor: '#fff',
     color: "#20232a",
     textAlign: "center",
     fontSize: 30,
@@ -81,20 +82,11 @@ const styles = StyleSheet.create({
   },
   input: {
   }
-  /*tableHeader: {
-    fontSize: 18,
-    padding: 5
-  },
-  item: {
-    fontSize: 16,
-    paddingHorizontal: 5,
-    textAlign: 'left',
-    color: '#20232a'
-  }*/
 });
 
 const mapStateToProps = state => ({
-  user: state.userReducer
+  user: state.userReducer,
+  page: state.pageReducer
 })
 
 

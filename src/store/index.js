@@ -6,12 +6,14 @@ import thunk from 'redux-thunk';
 import medicationHistoryReducer from './medication-history-reducer';
 import medicationsReducer from './medication-reducer';
 import userReducer from './user-reducer';
+import pageReducer from './page-reducer';
 
 // combine our reducers - right now it isn't necessary, however, you usually will have more than one and it will be.
 let reducers = combineReducers({
   medicationHistoryReducer,
   medicationsReducer,
-  userReducer
+  userReducer,
+  pageReducer
 });
 
 // finally, we get to actually create the store
