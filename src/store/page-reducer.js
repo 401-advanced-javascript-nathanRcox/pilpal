@@ -5,12 +5,12 @@ let initialState = {
   navigationStack: []
 }
 
-export const back = (payload) => {
+export const back = (state = initialState) => {
   console.log('going back to the last entry in ', state.navigationStack);
 
   return {
     type: 'BACK',
-    payload: payload
+    payload: state
   }
 }
 export const changePage = (newPage) => {
