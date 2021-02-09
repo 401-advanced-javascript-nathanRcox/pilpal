@@ -52,7 +52,7 @@ export const signIn = (user) => dispatch => {
         role: result.data.user.role,
         token: result.data.token
       };
-      dispatch(getSignIn({ user }));;
+      dispatch(getSignIn(user));
 
     });
 
@@ -66,18 +66,17 @@ const getSignIn = payload => {
 }
 
 const userReducer = (state = initialState, action) => {
-  console.log('STATE = ', state);
   let { type, payload } = action;
-  console.log(payload);
+  // console.log('userReducer Payload:', payload);
   switch (type) {
     case 'SIGNUP':
-      console.log("payload", payload);
+      // console.log("payload", payload);
       axios.post(REACT_NATIVE_API + '/signup', {
         username: payload.username,
         password: payload.password
       })
         .then(result => {
-          console.log(result);
+          // console.log(result);
           let user = {
             id: result.data.user._id,
             username: result.data.user.username,
@@ -90,6 +89,7 @@ const userReducer = (state = initialState, action) => {
       //todo: do an API call here
       //save the auth token in a cookie
       return payload;
+
     case 'SIGNIN':
       console.log("payload", payload);
       return payload;
