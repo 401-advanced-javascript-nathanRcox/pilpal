@@ -52,7 +52,7 @@ export const signIn = (user) => dispatch => {
         role: result.data.user.role,
         token: result.data.token
       };
-      dispatch(getSignIn({ user }));;
+      dispatch(getSignIn(user));
 
     });
 

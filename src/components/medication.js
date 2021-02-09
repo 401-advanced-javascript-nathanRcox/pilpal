@@ -12,15 +12,14 @@ function Medication(props) {
   const [frequency, setFrequency] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
   const [medNote, setMedNote] = useState('');
-  const [id, setUserId] = useState(props.user.id);
+  // const [id, setUserId] = useState(props.user.id);
 
-  const medObject = { user_id: id, medName, dosage, frequency, timeOfDay, medNote };
   
-  const newMedication = (med) => {
-    console.log('Props:', props);
-    setUserId(props.user.id);
+  const newMedication = () => {
+    
+    let medObject = { user_id: props.user.id, medName, dosage, frequency, timeOfDay, medNote };
     console.log('MedObject on Medication:', medObject);
-    props.addMedication(med);
+    props.addMedication(medObject);
   }
 
   useEffect(() => {console.log('Props on Medications:', props)}, [props]);
@@ -52,7 +51,7 @@ function Medication(props) {
         value={medNote}
         onChangeText={text => setMedNote(text)}
       />
-      <Button onPress={() => newMedication(medObject)}>Add a Medication</Button>
+      <Button onPress={() => newMedication()}>Add a Medication</Button>
       </>
   )
 }
