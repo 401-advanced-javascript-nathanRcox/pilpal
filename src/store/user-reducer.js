@@ -39,6 +39,11 @@ const getToken = (token) => {
     payload: token
   }
 }
+
+export const invalidateToken = () => {
+  storeToken('');
+}
+
 export const signUp = (newUser) => dispatch => {
   console.log('hello-world')
   axios.post(REACT_NATIVE_API + '/signup', {

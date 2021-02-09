@@ -1,36 +1,57 @@
-import { StyleSheet, View, Platform } from 'react-native';
-import React, { useEffect } from 'react';
-import { Appbar } from 'react-native-paper';
+import { View, Platform } from 'react-native';
+import React from 'react';
+import { Appbar, Menu, Divider, Button } from 'react-native-paper';
 import { changePage, back } from '../store/page-reducer';
 import { connect } from 'react-redux';
+import { invalidateToken } from '../store/user-reducer';
 
-const mapDispatchToProps = { changePage, back };
+const mapDispatchToProps = { changePage, back, invalidateToken };
 
 
 function Header(props) {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
+  const [visible, setVisible] = React.useState(false);
 
-  useEffect(() => {
-    console.log('PROPS.PAGE CHANGED TO = ', props.page);
-  }, [props.page])
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
+
   return (
-    <View>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => { props.back() }} />
-        <Appbar.Content title="PilPal" />
-        <Appbar.Action icon="magnify" onPress={() => {
-          // console.log('changing to sign in page');
-          props.changePage('SignIn');
-          // console.log(props.page);
-        }} />
-        <Appbar.Action icon={MORE_ICON} onPress={() => {
-          console.log('changing to add medication page');
-          props.changePage('AddMedication')
-          console.log('HEADER PAGE props.page changed to ', props.page);
 
-        }} />
-      </Appbar.Header>
-    </View>
+    <Appbar.Header>
+      <Appbar.BackAction onPress={() => { props.back(props.page) }} />
+      <Appbar.Content title="PilPal" />
+      <Menu
+        onDismiss={closeMenu}
+        visible={visible}
+        anchor={
+          <Appbar.Action
+            disabled={isLoading}
+            color="white"
+            icon="more-vert"
+            onPress={onShowMenu}
+          />
+        }>
+        <Menu.Item icon="edit" title="Editar" onPress={onPressEdit} />
+      </Menu>
+    </Appbar.Header>
+
+    // <View>
+    //   <Appbar.Header>
+    //     <Appbar.BackAction onPress={() => { props.back(props.page) }} />
+    //     <Appbar.Content title="PilPal" />
+    //     <Menu
+    //       visible={visible}
+    //       onDismiss={closeMenu}
+    //       anchor={< Appbar.Action icon={MORE_ICON} onPress={openMenu} />}>
+    //       <Menu.Item onPress={() => { props.changePage('AddMedication') }} title="Add Medication" />
+    //       <Divider />
+    //       <Menu.Item onPress={() => { }} title="Item 2" />
+    //       <Divider />
+    //       <Menu.Item onPress={() => { props.invalidateToken }} title="Sign Out" />
+    //     </Menu>
+    //   </Appbar.Header>
+    // </View>
   )
 }
 
