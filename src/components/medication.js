@@ -12,14 +12,18 @@ function Medication(props) {
   const [frequency, setFrequency] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
   const [medNote, setMedNote] = useState('');
+  const [id, setUserId] = useState(props.user.id);
 
-  const medObject = { user_id: '60208a7d3d9e100015160499', medName, dosage, frequency, timeOfDay, medNote };
+  const medObject = { user_id: id, medName, dosage, frequency, timeOfDay, medNote };
   
   const newMedication = (med) => {
+    console.log('Props:', props);
+    setUserId(props.user.id);
+    console.log('MedObject on Medication:', medObject);
     props.addMedication(med);
   }
 
-  useEffect(() => {console.log('Props.State on Medications:', props.state)});
+  useEffect(() => {console.log('Props on Medications:', props)}, [props]);
 
   return (
     <>
@@ -54,8 +58,9 @@ function Medication(props) {
 }
 
 const mapStateToProps = (state) => ({
-  state,
-  user_id: state.userReducer.id,
+  history: state.medicationHistoryReducer,
+  medications: state.medicationsReducer,
+  user: state.userReducer,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Medication);

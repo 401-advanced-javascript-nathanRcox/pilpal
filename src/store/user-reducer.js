@@ -19,7 +19,7 @@ export const signUp = (newUser) => {
 }
 
 export const signIn = (user) => {
-  console.log(user);
+  console.log('User Sign-in:', user);
   return {
     type: 'SIGNIN',
     payload: user
@@ -27,18 +27,17 @@ export const signIn = (user) => {
 }
 
 const userReducer = (state = initialState, action) => {
-  console.log('STATE = ', state);
   let { type, payload } = action;
-  console.log(payload);
+  // console.log('userReducer Payload:', payload);
   switch (type) {
     case 'SIGNUP':
-      console.log("payload", payload);
+      // console.log("payload", payload);
       axios.post(REACT_NATIVE_API + '/signup', {
         username: payload.username,
         password: payload.password
       })
         .then(result => {
-          console.log(result);
+          // console.log(result);
           let user = {
             id: result.data.user._id,
             username: result.data.user.username,
@@ -51,9 +50,11 @@ const userReducer = (state = initialState, action) => {
       //todo: do an API call here
       //save the auth token in a cookie
       return payload;
+
     case 'SIGNIN':
       //todo: do an API call
-      console.log("payload", payload);
+      // console.log("payload", payload);
+      let user;
       axios.post(REACT_NATIVE_API + '/signin', {}, {
         auth: {
           username: payload.username,
@@ -61,18 +62,18 @@ const userReducer = (state = initialState, action) => {
         }
       })
         .then((result) => {
-          console.log({ result })
-          let user = {
+          // console.log('Result.data:', result.data )
+          user = {
             id: result.data.user._id,
             username: result.data.user.username,
             role: result.data.user.role,
             token: result.data.token
           };
           console.log({ user });
-          return { ...state, user };
         });
-      return state;
-      break;
+        console.log('User in POST after update:', user);
+      return {...state, user};
+      // break;
     //save the auth token in a cookie
 
     //return payload;

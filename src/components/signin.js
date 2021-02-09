@@ -36,9 +36,10 @@ function SignIn(props) {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        label="Email"
+        label="Username"
         value={username}
-        keyboardType="email-address"
+        autoCapitalize = 'none'
+        // keyboardType="email-address"
         onChangeText={user => setUsername(user)} />
       <TextInput
         style={styles.input}

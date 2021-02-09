@@ -1,4 +1,5 @@
 // Medication reducer
+import { REACT_NATIVE_API } from '@env';
 
 const axios = require('axios').default;
 
@@ -6,12 +7,13 @@ let initialState = {
   medications: []
 }
 
-const API = process.env.REACT_APP_API;
+// const API = process.env.REACT_APP_API;
 // const API = 'http://localhost:3000/api/v1/medications';
+// REACT_NATIVE_API + '/api/v1/medications'
 const URL = 'https://pilpal-server.herokuapp.com/api/v1/medications'
 export const addMedication = (payload) => dispatch => {
   // console.log('medObject:', payload)
-  return axios.post(`${API}/api/v1/medications`, {
+  return axios.post(URL, {
     user_id: payload.user_id,
     name: payload.medName,
     dosage: payload.dosage,
@@ -37,7 +39,6 @@ const medicationReducer = (state = initialState, action) => {
   let { type, payload } = action;
   switch (type) {
     case 'ADD':
-      //todo: do an API call here
       // console.log('Payload:', payload);
       return {medications: [...state.medications, payload]};
 
