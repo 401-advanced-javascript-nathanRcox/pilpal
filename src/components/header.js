@@ -1,13 +1,25 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import React, { useEffect, setState, useState } from 'react';
-import { Button, TextInput, Text } from 'react-native-paper';
+//import { Button, TextInput, Text } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
+// import { Button, View, Text } from 'react-native';
 
 
-function Header() {
+
+function Header({ navigation }) {
+
+  console.log('h', navigation);
+  const AddMedication = () => <AddMedication />;
+  const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Medication Tracker</Text>
+    <View>
+
+      <Appbar.Header>
+        <Appbar.Content title="PilPal" />
+        <Appbar.Action icon="magnify" onPress={() => { navigation.navigate('SignIn') }} />
+        <Appbar.Action icon={MORE_ICON} onPress={() => { navigation.navigate('AddMedication') }} />
+      </Appbar.Header>
     </View>
   )
 }

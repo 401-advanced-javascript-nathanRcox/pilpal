@@ -7,7 +7,7 @@ import { signIn } from '../store/user-reducer';
 
 const mapDispatchToProps = { signIn };
 
-function SignIn(props) {
+function SignIn(props, { navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
