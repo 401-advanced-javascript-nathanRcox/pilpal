@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { ActionSheetIOS } from 'react-native';
-// const REACT_NATIVE_API = 'https://pilpal-server.herokuapp.com';
 import { REACT_NATIVE_API } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //user reducer
 let initialState = {
@@ -10,25 +9,53 @@ let initialState = {
   role: '',
   token: ''
 }
-// export const get = () => dispatch => {
-//   console.log('iN GET ----------------=')
-//   return superagent.get('https://dina-auth-api.herokuapp.com/api/v1/products')
-//     .then(response => {
-//       response.body.forEach(product => {
-//         product.inCart = 0;
-//       });
-//       dispatch(getProducts({ products: response.body }));;
-//     })
-// }
 
-// const getProducts = payload => {
-//   return {
-//     type: 'GET',
-//     payload: payload
-//   }
-// }
+// create a function that saves your data asyncronously
+const storeToken = async (token) => {
+  try {
+    await AsyncStorage.setItem('token', token);
+  } catch (error) {
+    // Error saving data
+  }
+}
 
+// fetch the data back asyncronously
+export const retrieveToken = () => async dispatch => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (token !== null) {
+      // Our data is fetched successfully
+      console.log('got the token!', token);
+    }
+    dispatch(getToken(token));
+  } catch (error) {
+    // Error retrieving data
+  }
+}
+
+const getToken = (token) => {
+  return {
+    type: 'UPDATETOKEN',
+    payload: token
+  }
+}
 export const signUp = (newUser) => dispatch => {
+  console.log('hello-world')
+  axios.post(REACT_NATIVE_API + '/signup', {
+    username: newUser.username,
+    password: newUser.password,
+    email: newUser.email,
+    role: 'user'
+  })
+    .then(result => {
+      let user = result.data.user;
+      // console.log({ user });
+      //save the auth token in the device's async storage (like a cookie)
+      storeToken(user.token);
+      dispatch(getSignUp(user));
+    })
+}
+const getSignUp = (newUser) => {
   return {
     type: 'SIGNUP',
     payload: newUser
@@ -36,7 +63,7 @@ export const signUp = (newUser) => dispatch => {
 }
 
 export const signIn = (user) => dispatch => {
-  console.log(user);
+  // console.log(user);
 
   return axios.post(REACT_NATIVE_API + '/signin', {}, {
     auth: {
@@ -45,15 +72,10 @@ export const signIn = (user) => dispatch => {
     }
   })
     .then(result => {
-      console.log({ result })
-      let user = {
-        id: result.data.user._id,
-        username: result.data.user.username,
-        role: result.data.user.role,
-        token: result.data.token
-      };
+      let user = result.data.user;
+      //save the auth token in the device's async storage (like a cookie)
+      storeToken(user.token);
       dispatch(getSignIn(user));
-
     });
 
 }
@@ -70,36 +92,19 @@ const userReducer = (state = initialState, action) => {
   // console.log('userReducer Payload:', payload);
   switch (type) {
     case 'SIGNUP':
-      // console.log("payload", payload);
-      axios.post(REACT_NATIVE_API + '/signup', {
-        username: payload.username,
-        password: payload.password
-      })
-        .then(result => {
-          // console.log(result);
-          let user = {
-            id: result.data.user._id,
-            username: result.data.user.username,
-            role: result.data.user.role,
-            token: result.data.token
-          };
-          console.log({ user });
-          return { ...state, user };
-        })
-      //todo: do an API call here
-      //save the auth token in a cookie
       return payload;
 
     case 'SIGNIN':
       console.log("payload", payload);
       return payload;
-      break;
-    //save the auth token in a cookie
 
     //return payload;
+    case 'UPDATETOKEN':
+      return { ...state, token: payload }
     default:
       return state;
   }
 }
 
 export default userReducer;
+

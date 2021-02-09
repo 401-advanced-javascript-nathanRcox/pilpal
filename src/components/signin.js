@@ -2,15 +2,17 @@ import React, { useEffect, setState, useState } from 'react';
 import { Button, TextInput, Text } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { signIn } from '../store/user-reducer';
+import { signIn, retrieveToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
 // import CookieManager from '@react-native-cookies/cookies';
 
-const mapDispatchToProps = { signIn, changePage };
+const mapDispatchToProps = { signIn, changePage, retrieveToken };
 
 function SignIn(props) {
   //todo: if the user is already signed in, change page to add medication page
-
+  const token = props.retrieveToken();
+  if (token) props.changePage('AddMedication');
+  // console.log(token);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

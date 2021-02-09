@@ -15,7 +15,7 @@ function Medication(props, { navigation }) {
 
   const newMedication = () => {
 
-    let medObject = { user_id: props.user.id, medName, dosage, frequency, timeOfDay, medNote };
+    let medObject = { user_id: props.user.id, token: props.user.token, medName, dosage, frequency, timeOfDay, medNote };
     console.log('MedObject on Medication:', medObject);
     props.addMedication(medObject);
   }
