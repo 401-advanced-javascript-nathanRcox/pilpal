@@ -1,51 +1,42 @@
 import { StyleSheet, View, Platform } from 'react-native';
-import React, { useEffect, setState, useState } from 'react';
-//import { Button, TextInput, Text } from 'react-native-paper';
+import React, { useEffect } from 'react';
 import { Appbar } from 'react-native-paper';
-// import { Button, View, Text } from 'react-native';
+import { changePage, back } from '../store/page-reducer';
+import { connect } from 'react-redux';
+
+const mapDispatchToProps = { changePage, back };
 
 
-
-function Header({ navigation }) {
-
-  console.log('h', navigation);
-  const AddMedication = () => <AddMedication />;
+function Header(props) {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
+  useEffect(() => {
+    console.log('PROPS.PAGE CHANGED TO = ', props.page);
+  }, [props.page])
   return (
     <View>
-
       <Appbar.Header>
+        <Appbar.BackAction onPress={() => { props.back() }} />
         <Appbar.Content title="PilPal" />
-        <Appbar.Action icon="magnify" onPress={() => { navigation.navigate('SignIn') }} />
-        <Appbar.Action icon={MORE_ICON} onPress={() => { navigation.navigate('AddMedication') }} />
+        <Appbar.Action icon="magnify" onPress={() => {
+          // console.log('changing to sign in page');
+          props.changePage('SignIn');
+          // console.log(props.page);
+        }} />
+        <Appbar.Action icon={MORE_ICON} onPress={() => {
+          console.log('changing to add medication page');
+          props.changePage('AddMedication')
+          console.log('HEADER PAGE props.page changed to ', props.page);
+
+        }} />
       </Appbar.Header>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    textAlign: "center",
-    width: '100%',
-    margin: "auto",
-    padding: 20
-  },
-  header: {
-    marginTop: 16,
-    paddingVertical: 5,
-    paddingTop: 45,
-    // borderWidth: 4,
-    // borderColor: "#20232a",
-    // borderRadius: 6,
-    backgroundColor: '#fff', //"#61dafb",
-    color: "#20232a",
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-    textDecorationLine: "underline"
-  }
-});
+const mapStateToProps = state => ({
+  page: state.pageReducer
+})
 
-export default Header;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

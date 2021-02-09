@@ -12,8 +12,6 @@ function Medication(props, { navigation }) {
   const [frequency, setFrequency] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
   const [medNote, setMedNote] = useState('');
-  // const [id, setUserId] = useState(props.user.id);
-
 
   const newMedication = () => {
 
@@ -22,7 +20,6 @@ function Medication(props, { navigation }) {
     props.addMedication(medObject);
   }
 
-  useEffect(() => { console.log('Props on Medications:', props) }, [props]);
 
   return (
     <>
