@@ -27,8 +27,21 @@ let initialState = {
 //     payload: payload
 //   }
 // }
-
 export const signUp = (newUser) => dispatch => {
+  console.log('hello-world')
+  axios.post(REACT_NATIVE_API + '/signup', {
+    username: newUser.username,
+    password: newUser.password,
+    email: newUser.email,
+    role: 'user'
+  })
+    .then(result => {
+      let user = result.data.user;
+      console.log({ user });
+      dispatch(getSignUp(user));
+    })
+}
+const getSignUp = (newUser) => {
   return {
     type: 'SIGNUP',
     payload: newUser
@@ -70,24 +83,6 @@ const userReducer = (state = initialState, action) => {
   // console.log('userReducer Payload:', payload);
   switch (type) {
     case 'SIGNUP':
-      // console.log("payload", payload);
-      axios.post(REACT_NATIVE_API + '/signup', {
-        username: payload.username,
-        password: payload.password
-      })
-        .then(result => {
-          // console.log(result);
-          let user = {
-            id: result.data.user._id,
-            username: result.data.user.username,
-            role: result.data.user.role,
-            token: result.data.token
-          };
-          console.log({ user });
-          return { ...state, user };
-        })
-      //todo: do an API call here
-      //save the auth token in a cookie
       return payload;
 
     case 'SIGNIN':
@@ -103,3 +98,4 @@ const userReducer = (state = initialState, action) => {
 }
 
 export default userReducer;
+
