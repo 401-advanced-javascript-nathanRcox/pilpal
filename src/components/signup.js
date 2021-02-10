@@ -3,14 +3,16 @@ import { Button, TextInput, Text } from 'react-native-paper';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { signUp } from '../store/user-reducer';
+import { changePage } from '../store/page-reducer';
 
-const mapDispatchToProps = { signUp };
+const mapDispatchToProps = { signUp, changePage };
 
 function SignUp(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
 
   useEffect(() => {
     //check if user is signed in. If yes, skip the authentication requirement
@@ -26,7 +28,7 @@ function SignUp(props) {
         email
       });
       console.log('STATE AFTER SIGN UP', props.user);
-
+      props.changePage('AddMedication');
     }
     catch (error) {
       setErrorMessage(error.message);
