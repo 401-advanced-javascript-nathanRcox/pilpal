@@ -3,22 +3,48 @@ import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const mapDispatchToProps = { addMedication, invalidateToken };
 
 function TakeMedication(props) {
-
+  console.log('props in take medication = ', props)
   const [medicationId, setMedicationId] = useState('');
-  const [dosage, setDosage] = useState('');
-  const [frequency, setFrequency] = useState('');
-  const [timeOfDay, setTimeOfDay] = useState('');
-  const [medNote, setMedNote] = useState('');
+  const [userId, setUserId] = useState('');
+  const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const newMedication = () => {
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
 
-    let medObject = { user_id: props.user.id, token: props.user.token, medName, dosage, frequency, timeOfDay, medNote };
-    console.log('MedObject on Medication:', medObject);
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+
+  const takeMedication = () => {
+
+    let medObject = {
+      user_id: props.user.id,
+      token: props.user.token,
+      date,
+      note
+    };
+    console.log('Object to save from Take Medication page:', medObject);
     try {
       props.addMedication(medObject);
     }
@@ -28,37 +54,37 @@ function TakeMedication(props) {
     }
   }
 
-
+  useEffect(() => {
+    setUserId(props.user.id);
+  }, [])
   return (
     <>
+      <Button label="Date" onPress={showDatepicker}>Date</Button>
+      <Button label="Time" onPress={showTimepicker}>Time</Button>
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
       <TextInput
-        label="Name of Medication"
-        value={medName}
-        onChangeText={text => setMedName(text)}
+        label="Date"
+        value={date}
+        onChangeText={date => setDate(date)}
       />
-      <TextInput
-        label="Dosage"
-        value={dosage}
-        onChangeText={text => setDosage(text)}
-      />
-      <TextInput
-        label="Frequency"
-        value={frequency}
-        onChangeText={text => setFrequency(text)}
-      />
-      <TextInput
-        label="Time of Day"
-        value={timeOfDay}
-        onChangeText={text => setTimeOfDay(text)}
-      />
+
       <TextInput
         label="Notes"
-        value={medNote}
-        onChangeText={text => setMedNote(text)}
+        value={note}
+        onChangeText={note => setNote(note)}
       />
       <Text>{errorMessage}</Text>
 
-      <Button onPress={() => newMedication()}>Add a Medication</Button>
+      <Button onPress={() => takeMedication()}>Take Medication</Button>
     </>
   )
 }

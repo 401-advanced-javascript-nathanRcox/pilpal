@@ -19,7 +19,7 @@ function SignIn(props) {
   const getToken = async () => {
     const token = await props.retrieveToken();
     // console.log('retrieved token = ', token);
-    if (token) props.changePage('AddMedication');
+    if (token) props.changePage('TakeMedication');
   }
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function SignIn(props) {
         password
       });
       // console.log('STATE AFTER SIGN IN', props.user);
-      props.changePage('AddMedication');
+      props.changePage('TakeMedication');
       // console.log(props.user)
     }
     catch (error) {
