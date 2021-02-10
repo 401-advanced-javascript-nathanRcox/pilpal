@@ -16,16 +16,15 @@ function History(props) {
   }
 
   useEffect(() => {
-    // console.log('PROPS on HISTORY:', props.history);
-    getAllMedHistory(props.user)
-  }, [props])
+    console.log('PROPS on HISTORY:', props);
+    props.getAllMedHistory(props.user)
+  }, [])
 
   return (
     <ScrollView>
       <Button>Sort by Medication</Button>
       {props.history.map(drug => (
         <>
-        {console.log('DRUG:', drug)}
         <Card style={styles.surface} key={drug._id}>
           <Card.Title title={drug.name}  />
           <Card.Content>

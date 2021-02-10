@@ -9,6 +9,7 @@ let initialState = {
 }
 
 export const getMedications = (payload) => async dispatch => {
+  // console.log('IN GET MEDICATIONS');
   axios.defaults.headers.common = { 'Authorization': `bearer ${payload.token}` }
 
   // console.log({ payload });

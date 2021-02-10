@@ -12,7 +12,7 @@ export const getAllMedHistory = (payload) => dispatch => {
     })
     .then(response => {
       dispatch(getMed(response.data))
-      console.log('Response.data:', response.data);
+      // console.log('Response.data:', response.data);
     })
     .catch(error => console.error('get all failed', error))
   }
@@ -45,6 +45,10 @@ const addMedHistory = (newMedicationHistory) => {
 const medicationReducer = (state = initialState, action) => {
   let { type, payload } = action;
   switch (type) {
+    
+    case 'ADD':
+      return { medication_history: [...state.medication_history, payload]};
+    
     case 'GETALL':
       return { medication_history: payload };
 
