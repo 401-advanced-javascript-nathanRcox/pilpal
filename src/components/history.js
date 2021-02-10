@@ -16,7 +16,7 @@ function History(props) {
   }
 
   useEffect(() => {
-    console.log('PROPS on HISTORY:', props);
+    console.log('PROPS.HISTORY:', props.history);
     props.getAllMedHistory(props.user)
   }, [])
 
