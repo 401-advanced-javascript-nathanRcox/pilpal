@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getMedications } from '../store/medication-reducer';
+import { addMedicationHistory } from '../store/medication-history-reducer';
+import { getMedications, toggleChecked } from '../store/medication-reducer';
 import { TextInput, Button, Text, Checkbox } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
-import { addMedicationHistory } from '../store/medication-history-reducer';
+import { changePage } from '../store/page-reducer';
 
-const mapDispatchToProps = { invalidateToken, getMedications };
+const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 
 function TakeMedication(props) {
   // const [medicationId, setMedicationId] = useState('');
@@ -13,43 +14,47 @@ function TakeMedication(props) {
   const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [selectedMedicationList, setSelectedMedicationList] = useState([]);
-  const [checked, setChecked] = React.useState(false);
 
   const takeMedication = () => {
     try {
-      selectedMedicationList.forEach((medication) => {
-        console.log({ medication });
-        props.addMedicationHistory({
-          user_id: props.user.id,
-          medication_id: medication.id,
-          name: medication.name,
-          date: date,
-          notes: note
-        });
+      props.medications.medications.forEach((medication) => {
+        if (medication.checked) {
+          console.log({ medication });
+          console.log({ token: props.user.token })
+          props.addMedicationHistory({
+            user_id: props.user.id,
+            medication_id: medication._id,
+            name: medication.name,
+            date: date,
+            notes: note
+          }, props.user.token);
+        }
       });
-      props.page.changePage('MedicationHistory');
+      props.changePage('MedicationHistory');
     }
     catch (error) {
       console.log('error taking medication: ', error, 'invalidating token');
+      setErrorMessage(error);
       props.invalidateToken();
+      props.changePage('SignIn');
     }
   }
 
-  const toggleSelection = (event, medication) => {
-    console.log('in toggle selection', event, medication);
-    event.target.checked = !event.target.checked;
-    if (event.target.checked) setSelectedMedicationList([...selectedMedicationList, medication])
-    else setSelectedMedicationList(selectedMedicationList.filter(listMedication => {
-      if (listMedication.id === medication.id) return medication;
-    }))
-    event.preventDefault;
+  const toggleSelection = (medication) => {
+    props.toggleChecked(medication);
   }
 
   const getMeds = async () => {
-    console.log('getting meds');
-    await props.getMedications({ id: props.user.id, token: props.user.token });
-    console.log('PROPS.MEDICATIONS = ', props.medications)
+    try {
+      // console.log('getting meds');
+      await props.getMedications({ id: props.user.id, token: props.user.token });
+      // console.log('PROPS.MEDICATIONS = ', props.medications)
+    }
+    catch (error) {
+      console.log('error getting medications: ', error, 'invalidating token');
+      setErrorMessage(error);
+      props.invalidateToken();
+    }
   }
   useEffect(() => {
     //setUserId(props.user.id);
@@ -70,14 +75,16 @@ function TakeMedication(props) {
         onChangeText={note => setNote(note)}
       />
       {props.medications.medications.map((medication) => (
-        <Checkbox.Item
-          key={medication.id}
-          checked={false}
-          label={medication.name}
-          onPress={() => {
-            toggleSelection(medication)
-          }} />
-
+        <>
+          {/* {console.log(medication)} */}
+          < Checkbox.Item
+            key={medication.id}
+            status={medication.checked ? "checked" : "unchecked"}
+            label={medication.name}
+            onPress={() => {
+              toggleSelection(medication)
+            }} />
+        </>
       )
       )}
       <Text>{errorMessage}</Text>
@@ -91,6 +98,7 @@ const mapStateToProps = (state) => ({
   medications: state.medicationsReducer,
   medicationHistory: state.medicationHistoryReducer,
   user: state.userReducer,
+  page: state.pageReducer
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TakeMedication);

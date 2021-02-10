@@ -15,7 +15,7 @@ const storeToken = async (token, userId) => {
   try {
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('user_id', userId);
-    console.log('stored token ', token);
+    // console.log('stored token ', token);
   } catch (error) {
     // Error saving data
   }
@@ -116,7 +116,7 @@ const userReducer = (state = initialState, action) => {
 
     //return payload;
     case 'UPDATETOKEN':
-      console.log("payload", payload);
+      // console.log("payload", payload);
       return { ...state, token: payload.token, id: payload.userId };
     default:
       return state;

@@ -2,6 +2,7 @@
 import { REACT_NATIVE_API } from '@env';
 
 import axios from 'axios';
+import { Platform } from 'react-native';
 
 let initialState = {
   medications: []
@@ -14,7 +15,13 @@ export const getMedications = (payload) => async dispatch => {
   return await axios.get(
     REACT_NATIVE_API + '/api/v2/medications/user_id/' + payload.id)
     .then(response => {
-      console.log(response.data);
+      // console.log('before adding checked property', response.data)
+      response.data.forEach((medication) => {
+        // console.log('medication = ', medication);
+        medication.checked = false;
+        // console.log('medication = ', medication);
+      });
+      // console.log('after adding checked property: ', response.data);
       dispatch(getMed(response.data));
     });
 }
@@ -25,6 +32,7 @@ const getMed = payload => {
     payload: payload
   }
 }
+
 export const addMedication = (payload) => dispatch => {
   // console.log('Token:', payload.token)
   return axios.post(REACT_NATIVE_API + '/api/v2/medications',
@@ -55,6 +63,14 @@ export const postMed = payload => {
   }
 }
 
+export const toggleChecked = (payload) => {
+  payload = { ...payload, checked: !payload.checked };
+  // console.log('toggled payload = ', payload);
+  return {
+    type: 'TOGGLECHECKED',
+    payload: payload
+  }
+}
 const medicationReducer = (state = initialState, action) => {
   let { type, payload } = action;
   switch (type) {
@@ -62,8 +78,17 @@ const medicationReducer = (state = initialState, action) => {
       // console.log('Payload:', payload);
       return { medications: [...state.medications, payload] };
     case 'GETALL':
-      console.log('payload array = ', payload)
+      // console.log('payload array = ', payload)
       return { medications: payload }
+    case 'TOGGLECHECKED':
+      //todo - can we find a way to do this in-place so we aren't changing the order?
+      let arrayWithoutOldItem = state.medications.filter(medication => payload._id !== medication._id);
+      return {
+        medications: [
+          ...arrayWithoutOldItem,
+          payload
+        ]
+      }
     default:
       return state;
   }
