@@ -15,7 +15,7 @@ const storeToken = async (token, userId) => {
   try {
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('user_id', userId);
-    console.log('stored token ', token);
+    // console.log('stored token ', token);
   } catch (error) {
     // Error saving data
   }
@@ -64,7 +64,7 @@ export const signUp = (newUser) => dispatch => {
   })
     .then(result => {
       let user = result.data.user;
-      console.log({ user });
+      // console.log({ user });
       //save the auth token in the device's async storage (like a cookie)
       storeToken(user.token, user.id);
       dispatch(getSignUp(user));
@@ -116,7 +116,7 @@ const userReducer = (state = initialState, action) => {
 
     //return payload;
     case 'UPDATETOKEN':
-      console.log("payload", payload);
+      // console.log("payload", payload);
       return { ...state, token: payload.token, id: payload.userId };
     default:
       return state;
