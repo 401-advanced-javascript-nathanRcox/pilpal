@@ -14,8 +14,6 @@ function SignUp(props) {
 
   useEffect(() => {
     //check if user is signed in. If yes, skip the authentication requirement
-    //get from cookie
-    // let token = CookieManager.get('token');
     // console.log('User = ', props.user);
     //else do nothing.
   }, []);
@@ -28,7 +26,7 @@ function SignUp(props) {
         email
       });
       console.log('STATE AFTER SIGN UP', props.user);
-   
+
     }
     catch (error) {
       setErrorMessage(error.message);
@@ -48,7 +46,7 @@ function SignUp(props) {
         secureTextEntry={true}
         value={password}
         onChangeText={password => setPassword(password)} />
-    <TextInput
+      <TextInput
         style={styles.input}
         label="Email"
         value={email}
