@@ -1,10 +1,9 @@
 import React, { useEffect, setState, useState } from 'react';
 import { Button, TextInput, Text } from 'react-native-paper';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn, retrieveToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
-// import CookieManager from '@react-native-cookies/cookies';
 
 const mapDispatchToProps = { signIn, changePage, retrieveToken };
 
@@ -19,16 +18,13 @@ function SignIn(props) {
   const getToken = async () => {
     const token = await props.retrieveToken();
     console.log('retrieved token = ', token);
-    if (token) props.changePage('AddMedication');
+    if (token) props.changePage('TakeMedication');
   }
 
   useEffect(() => {
     getToken();
     //check if user is signed in. If yes, skip the authentication requirement
-    //get from cookie
-    // let token = CookieManager.get('token');
-    // console.log('User = ', props.user);
-    //else do nothing.
+
   }, []);
 
   const go = async () => {
@@ -37,8 +33,8 @@ function SignIn(props) {
         username,
         password
       });
-      console.log('STATE AFTER SIGN IN', props.user);
-      props.changePage('AddMedication');
+      // console.log('STATE AFTER SIGN IN', props.user);
+      props.changePage('TakeMedication');
       // console.log(props.user)
     }
     catch (error) {
@@ -46,7 +42,7 @@ function SignIn(props) {
     }
   }
   return (
-    <View style={styles.container}>
+    <>
       <TextInput
         style={styles.input}
         label="Username"
@@ -63,7 +59,7 @@ function SignIn(props) {
       <Button mode="contained" onPress={() => go()}>
         Sign In
       </Button>
-    </View>
+    </>
   )
 }
 

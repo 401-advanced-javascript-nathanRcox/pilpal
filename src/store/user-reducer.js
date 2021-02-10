@@ -14,7 +14,7 @@ let initialState = {
 const storeToken = async (token) => {
   try {
     await AsyncStorage.setItem('token', token);
-    console.log('stored token ', token);
+    // console.log('stored token ', token);
   } catch (error) {
     // Error saving data
   }
@@ -27,7 +27,7 @@ export const retrieveToken = () => async dispatch => {
     const token = await AsyncStorage.getItem('token');
     if (token !== null) {
       // Our data is fetched successfully
-      console.log('got the token!', token);
+      // console.log('got the token!', token);
       dispatch(getToken(token));
     }
   } catch (error) {
@@ -43,7 +43,7 @@ const getToken = (token) => {
 }
 
 export const invalidateToken = () => {
-  console.log('invalidating token');
+  // console.log('invalidating token');
   AsyncStorage.clear();
   // storeToken('');
   return {
@@ -64,10 +64,11 @@ export const signUp = (newUser) => dispatch => {
       let user = result.data.user;
       // console.log({ user });
       //save the auth token in the device's async storage (like a cookie)
-      storeToken(user.token);
+      // storeToken(user.token);
       dispatch(getSignUp(user));
     })
 }
+
 const getSignUp = (newUser) => {
   return {
     type: 'SIGNUP',
@@ -87,7 +88,7 @@ export const signIn = (user) => dispatch => {
     .then(result => {
       let user = result.data.user;
       //save the auth token in the device's async storage (like a cookie)
-      storeToken(user.token);
+      // storeToken(user.token);
       dispatch(getSignIn(user));
     });
 
@@ -108,13 +109,13 @@ const userReducer = (state = initialState, action) => {
       return payload;
 
     case 'SIGNIN':
-      console.log("payload", payload);
+      // console.log("payload", payload);
       return payload;
 
     //return payload;
-    case 'UPDATETOKEN':
-      console.log("payload", payload);
-      return { ...state, token: payload }
+    // case 'UPDATETOKEN':
+    //   // console.log("payload", payload);
+    //   return { ...state, token: payload }
     default:
       return state;
   }
