@@ -1,6 +1,6 @@
 import { View, Platform } from 'react-native';
 import React from 'react';
-import { Appbar, Menu, Divider, Button } from 'react-native-paper';
+import { Appbar, Menu, Divider } from 'react-native-paper';
 import { changePage, back } from '../store/page-reducer';
 import { connect } from 'react-redux';
 import { invalidateToken } from '../store/user-reducer';

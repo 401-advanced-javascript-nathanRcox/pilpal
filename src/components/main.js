@@ -8,8 +8,6 @@ import { changePage } from '../store/page-reducer';
 import { View } from 'react-native';
 
 const mapDispatchToProps = { changePage };
-import { useEffect } from 'react';
-
 
 function Main(props) {
 

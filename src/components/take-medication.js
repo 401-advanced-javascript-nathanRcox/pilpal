@@ -3,40 +3,18 @@ import { connect } from 'react-redux';
 import { getMedications } from '../store/medication-reducer';
 import { TextInput, Button, Text, Checkbox } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { addMedicationHistory } from '../store/medication-history-reducer';
 
 const mapDispatchToProps = { invalidateToken, getMedications };
 
 function TakeMedication(props) {
-  console.log('props in take medication = ', props)
   // const [medicationId, setMedicationId] = useState('');
   // const [userId, setUserId] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedMedicationList, setSelectedMedicationList] = useState([]);
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-  };
-
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode('date');
-  };
-
-  const showTimepicker = () => {
-    showMode('time');
-  };
+  const [checked, setChecked] = React.useState(false);
 
   const takeMedication = () => {
     try {
@@ -49,36 +27,37 @@ function TakeMedication(props) {
           date: date,
           notes: note
         });
-        props.page.changePage('MedicationHistory');
-      })
-
+      });
+      props.page.changePage('MedicationHistory');
     }
     catch (error) {
-      console.log('error adding: ', error, 'invalidating token');
+      console.log('error taking medication: ', error, 'invalidating token');
       props.invalidateToken();
     }
   }
 
+  const toggleSelection = (event, medication) => {
+    console.log('in toggle selection', event, medication);
+    event.target.checked = !event.target.checked;
+    if (event.target.checked) setSelectedMedicationList([...selectedMedicationList, medication])
+    else setSelectedMedicationList(selectedMedicationList.filter(listMedication => {
+      if (listMedication.id === medication.id) return medication;
+    }))
+    event.preventDefault;
+  }
+
+  const getMeds = async () => {
+    console.log('getting meds');
+    await props.getMedications({ id: props.user.id, token: props.user.token });
+    console.log('PROPS.MEDICATIONS = ', props.medications)
+  }
   useEffect(() => {
     //setUserId(props.user.id);
-    props.getMedications({ id: props.user.id, token: props.user.token });
-    console.log(props.medications)
+    getMeds();
   }, []);
 
   return (
     <>
-      <Button label="Date" onPress={showDatepicker}>Date</Button>
-      <Button label="Time" onPress={showTimepicker}>Time</Button>
-      {show ?
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-        : null}
       <TextInput
         label="Date"
         value={date}
@@ -90,8 +69,18 @@ function TakeMedication(props) {
         value={note}
         onChangeText={note => setNote(note)}
       />
+      {props.medications.medications.map((medication) => (
+        <Checkbox.Item
+          key={medication.id}
+          checked={false}
+          label={medication.name}
+          onPress={() => {
+            toggleSelection(medication)
+          }} />
+
+      )
+      )}
       <Text>{errorMessage}</Text>
-      {props.me}
       <Button onPress={() => takeMedication()}>Take Medication</Button>
     </>
   )

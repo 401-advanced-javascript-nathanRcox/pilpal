@@ -20,11 +20,11 @@ function SignIn(props) {
     // console.log('props = ', props)
     await props.retrieveToken();
     // console.log('props = ', props)
-    console.log('retrieved { token, user id } = ', props.user.token, props.user.id);
+    console.log('retrieved { token, user id } = ', props.user.token, ',  userID: ', props.user.id);
     if (props.user.token && props.user.id)
       props.changePage('TakeMedication');
-    else
-      AsyncStorage.clear();
+    // else
+    //   AsyncStorage.clear();
   }
 
   useEffect(() => {

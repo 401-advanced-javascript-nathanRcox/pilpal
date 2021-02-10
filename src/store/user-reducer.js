@@ -28,7 +28,7 @@ export const retrieveToken = () => async dispatch => {
     const token = await AsyncStorage.getItem('token');
     const userId = await AsyncStorage.getItem('user_id');
 
-    if (token !== null) {
+    if (token && userId) {
       // Our data is fetched successfully
       // console.log('got the token!', token, ' and user id ', userId);
       dispatch(getToken({ token, userId }));
@@ -124,4 +124,3 @@ const userReducer = (state = initialState, action) => {
 }
 
 export default userReducer;
-

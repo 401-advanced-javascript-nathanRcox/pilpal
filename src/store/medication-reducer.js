@@ -1,28 +1,18 @@
 // Medication reducer
 import { REACT_NATIVE_API } from '@env';
 
-const axios = require('axios').default;
+import axios from 'axios';
 
 let initialState = {
   medications: []
 }
 
-// const API = process.env.REACT_APP_API;
-// const API = 'http://localhost:3000/api/v1/medications';
-// REACT_NATIVE_API + '/api/v2/medications'
-// const URL = 'https://pilpal-server.herokuapp.com/api/v2/medications'
+export const getMedications = (payload) => async dispatch => {
+  axios.defaults.headers.common = { 'Authorization': `bearer ${payload.token}` }
 
-export const getMedications = (payload) => dispatch => {
-  console.log('User ID = ', payload);
-  return axios.get(
-    REACT_NATIVE_API + '/api/v2/medications/user_id/' + payload.id,
-    {},
-    {
-      headers: {
-        'Authorization': payload
-      }
-    }
-  )
+  // console.log({ payload });
+  return await axios.get(
+    REACT_NATIVE_API + '/api/v2/medications/user_id/' + payload.id)
     .then(response => {
       console.log(response.data);
       dispatch(getMed(response.data));
@@ -36,7 +26,7 @@ const getMed = payload => {
   }
 }
 export const addMedication = (payload) => dispatch => {
-  console.log('Token:', payload.token)
+  // console.log('Token:', payload.token)
   return axios.post(REACT_NATIVE_API + '/api/v2/medications',
     {
       user_id: payload.user_id,
@@ -48,9 +38,8 @@ export const addMedication = (payload) => dispatch => {
     },
     {
       headers: {
-        'Authorization': payload.token
+        Authorization: 'Bearer ' + payload.token
       }
-
     })
     .then(response => {
       // console.log('Response:', response);
