@@ -34,7 +34,7 @@ function Header(props) {
           <Divider />
           <Menu.Item onPress={() => { props.changePage('TakeMedication') }} title="Take Medication" />
           <Divider />
-          <Menu.Item onPress={() => { }} title="Medication History" />
+          <Menu.Item onPress={() => { props.changePage('MedicationHistory') }} title="Medication History" />
           <Divider />
           <Menu.Item onPress={() => signOut()} title="Sign Out" />
         </Menu>

@@ -1,5 +1,6 @@
 import React from 'react';
 import SignIn from './signin';
+import SignUp from './signup';
 import AddMedication from './add-medication';
 import TakeMedication from './take-medication';
 // import MedicationHistory from './src/components/history';

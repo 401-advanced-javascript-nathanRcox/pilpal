@@ -1,6 +1,6 @@
 import React, { useEffect, setState, useState } from 'react';
 import { Button, TextInput, Text } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Link } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn, retrieveToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
@@ -64,6 +64,7 @@ function SignIn(props) {
       <Button mode="contained" onPress={() => go()}>
         Sign In
       </Button>
+      <Button onPress={()=> props.changePage('SignUp')}>SignUp</Button>
     </>
   )
 }
