@@ -10,15 +10,20 @@ const mapDispatchToProps = { signIn, changePage, retrieveToken };
 
 function SignIn(props) {
   //todo: if the user is already signed in, change page to add medication page
-  const token = props.retrieveToken();
-  if (token) props.changePage('AddMedication');
   // console.log(token);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const getToken = async () => {
+    const token = await props.retrieveToken();
+    console.log('retrieved token = ', token);
+    if (token) props.changePage('AddMedication');
+  }
+
   useEffect(() => {
+    getToken();
     //check if user is signed in. If yes, skip the authentication requirement
     //get from cookie
     // let token = CookieManager.get('token');
@@ -33,6 +38,7 @@ function SignIn(props) {
         password
       });
       console.log('STATE AFTER SIGN IN', props.user);
+      props.changePage('AddMedication');
       // console.log(props.user)
     }
     catch (error) {

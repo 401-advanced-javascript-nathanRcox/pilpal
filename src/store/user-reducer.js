@@ -14,6 +14,7 @@ let initialState = {
 const storeToken = async (token) => {
   try {
     await AsyncStorage.setItem('token', token);
+    console.log('stored token ', token);
   } catch (error) {
     // Error saving data
   }
@@ -22,12 +23,13 @@ const storeToken = async (token) => {
 // fetch the data back asyncronously
 export const retrieveToken = () => async dispatch => {
   try {
+    // AsyncStorage.clear();
     const token = await AsyncStorage.getItem('token');
     if (token !== null) {
       // Our data is fetched successfully
       console.log('got the token!', token);
+      dispatch(getToken(token));
     }
-    dispatch(getToken(token));
   } catch (error) {
     // Error retrieving data
   }
@@ -39,8 +41,19 @@ const getToken = (token) => {
     payload: token
   }
 }
+
+export const invalidateToken = () => {
+  console.log('invalidating token');
+  AsyncStorage.clear();
+  // storeToken('');
+  return {
+    type: 'UPDATETOKEN',
+    payload: ''
+  }
+}
+
 export const signUp = (newUser) => dispatch => {
-  console.log('hello-world')
+  // console.log('hello-world')
   axios.post(REACT_NATIVE_API + '/signup', {
     username: newUser.username,
     password: newUser.password,
@@ -100,6 +113,7 @@ const userReducer = (state = initialState, action) => {
 
     //return payload;
     case 'UPDATETOKEN':
+      console.log("payload", payload);
       return { ...state, token: payload }
     default:
       return state;

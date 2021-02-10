@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, Text } from 'react-native-paper';
+import { invalidateToken } from '../store/user-reducer';
 
-const mapDispatchToProps = { addMedication };
+const mapDispatchToProps = { addMedication, invalidateToken };
 
-function Medication(props, { navigation }) {
+function Medication(props) {
 
   const [medName, setMedName] = useState('');
   const [dosage, setDosage] = useState('');
   const [frequency, setFrequency] = useState('');
   const [timeOfDay, setTimeOfDay] = useState('');
   const [medNote, setMedNote] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const newMedication = () => {
 
     let medObject = { user_id: props.user.id, token: props.user.token, medName, dosage, frequency, timeOfDay, medNote };
     console.log('MedObject on Medication:', medObject);
-    props.addMedication(medObject);
+    try {
+      props.addMedication(medObject);
+    }
+    catch (error) {
+      console.log('error adding: ', error, 'invalidating token');
+      props.invalidateToken();
+    }
   }
 
 
@@ -48,6 +56,8 @@ function Medication(props, { navigation }) {
         value={medNote}
         onChangeText={text => setMedNote(text)}
       />
+      <Text>{errorMessage}</Text>
+
       <Button onPress={() => newMedication()}>Add a Medication</Button>
     </>
   )
