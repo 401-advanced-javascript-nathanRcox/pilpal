@@ -12,6 +12,7 @@ export const getAllMedHistory = (payload) => dispatch => {
   return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.id}`)
     .then(response => {
       dispatch(getMed(response.data))
+      // console.log('Response.data:', response.data);
     })
     .catch(error => console.error('get all failed', error))
 }
@@ -30,7 +31,7 @@ export const addMedicationHistory = (newMedicationHistory, token) => dispatch =>
   return axios.post(REACT_NATIVE_API + '/api/v2/medication-history',
     newMedicationHistory)
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       dispatch(addMedHistory(response.data));
     });
 
@@ -44,6 +45,10 @@ const addMedHistory = (newMedicationHistory) => {
 const medicationReducer = (state = initialState, action) => {
   let { type, payload } = action;
   switch (type) {
+
+    case 'ADD':
+      return { medication_history: [...state.medication_history, payload] };
+
     case 'GETALL':
       return { medication_history: payload };
     case 'ADD':

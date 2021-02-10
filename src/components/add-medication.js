@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
-import { back } from '../store/page-reducer';
+import { changePage } from '../store/page-reducer';
+import { NavToggle } from './add-take-toggle';
 
-const mapDispatchToProps = { addMedication, invalidateToken };
+const mapDispatchToProps = { addMedication, invalidateToken, changePage };
 
 function Medication(props) {
 
@@ -22,7 +23,11 @@ function Medication(props) {
     // console.log('MedObject on Medication:', medObject);
     try {
       props.addMedication(medObject);
-      props.back();
+      setMedName('');
+      setDosage('');
+      setFrequency('');
+      setTimeOfDay('');
+      setMedNote('');
     }
     catch (error) {
       // console.log('error adding: ', error, 'invalidating token');
@@ -30,6 +35,10 @@ function Medication(props) {
     }
   }
 
+  const [visible, setVisible] = React.useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
 
   return (
     <>
@@ -60,7 +69,12 @@ function Medication(props) {
       />
       <Text>{errorMessage}</Text>
 
-      <Button onPress={() => newMedication()}>Add a Medication</Button>
+      <Button onPress={() => {
+        showModal()
+        newMedication()
+      }}>Add a Medication</Button>
+      <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
+
     </>
   )
 }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Text, Surface, Button, Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, ScrollView } from 'react-native';
 import { getAllMedHistory } from '../store/medication-history-reducer';
-// import { }
 
 const mapDispatchToProps = { getAllMedHistory };
 
@@ -17,15 +16,15 @@ function History(props) {
   }
 
   useEffect(() => {
-    // console.log('PROPS on HISTORY:', props.history);
-    getAllMedHistory(props.user)
-  }, [props])
+    console.log('PROPS on HISTORY:', props);
+    props.getAllMedHistory(props.user)
+  }, [])
 
   return (
     <ScrollView>
       <Button>Sort by Medication</Button>
-      {props.history.medication_history.map(drug => (
-
+      {props.history.map(drug => (
+        <>
         <Card style={styles.surface} key={drug._id}>
           <Card.Title title={drug.name}  />
           <Card.Content>
@@ -42,13 +41,13 @@ function History(props) {
             <Button onPress={() => getOneDrugById(drug._id)}>History</Button>
           </Card.Actions>
         </Card>
+      </>
       ))}
     </ScrollView>
   );
 }
 const mapStateToProps = (state) => ({
-  history: state.medicationHistoryReducer,
-  medications: state.medicationsReducer,
+  history: state.medicationHistoryReducer.medication_history,
   user: state.userReducer,
 });
 
