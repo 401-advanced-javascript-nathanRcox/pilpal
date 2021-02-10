@@ -46,7 +46,7 @@ const getToken = (payload) => {
 }
 
 export const invalidateToken = () => {
-  console.log('invalidating token');
+  // console.log('invalidating token');
   AsyncStorage.clear();
   return {
     type: 'UPDATETOKEN',

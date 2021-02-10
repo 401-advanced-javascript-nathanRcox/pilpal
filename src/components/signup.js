@@ -1,6 +1,6 @@
 import React, { useEffect, setState, useState } from 'react';
 import { Button, TextInput, Text } from 'react-native-paper';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { signUp } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
@@ -27,7 +27,7 @@ function SignUp(props) {
         password,
         email
       });
-      console.log('STATE AFTER SIGN UP', props.user);
+      // console.log('STATE AFTER SIGN UP', props.user);
       props.changePage('AddMedication');
     }
     catch (error) {
@@ -35,7 +35,7 @@ function SignUp(props) {
     }
   }
   return (
-    <View style={styles.container}>
+    <>
       <TextInput
         style={styles.input}
         label="Username"
@@ -52,12 +52,12 @@ function SignUp(props) {
         style={styles.input}
         label="Email"
         value={email}
+        autoCapitalize="none"
         onChangeText={email => setEmail(email)} />
       <Text>{errorMessage}</Text>
       <Button mode="contained" onPress={() => newUser()}>
         Sign Up
-      </Button>
-    </View>
+      </Button></>
   )
 }
 

@@ -7,7 +7,6 @@ import { invalidateToken } from '../store/user-reducer';
 
 const mapDispatchToProps = { changePage, back, invalidateToken };
 
-
 function Header(props) {
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
   const [visible, setVisible] = React.useState(false);

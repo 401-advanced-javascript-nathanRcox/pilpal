@@ -1,40 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Text, View} from 'react-native-paper';
+import { Text, Surface, Button, Avatar, Card, Title, Paragraph } from 'react-native-paper';
+import { StyleSheet, ScrollView } from 'react-native';
 import { getAllMedHistory } from '../store/medication-history-reducer';
+// import { }
 
 const mapDispatchToProps = { getAllMedHistory };
 
 function History(props) {
-    // console.log('I AM THE PROPS!', props)
 
-    useEffect(()=> {
-       getAllMedHistory(props.user.token)
-    }, [])
+  const [history, setHistory] = useState('true');
+  const [oneMed, setOneMed] = useState('false');
 
-    return (
-        <>
-        {console.log('I AM THE PROPS!', props)}
-            {props.history.medication_history.map(data => {
-                <View key={data._id}>
-                    <Text>
-                        {data.name}
-                    </Text>
-                    <Text>
-                        {data.datetime}
-                    </Text>
-                    <Text>
-                        {data.notes}
-                    </Text>
-                </View>
-            })}
-        </>
-    );
+  const getOneDrugById = (drug) => {
+    console.log('DRUG:', drug);
+  }
+
+  useEffect(() => {
+    // console.log('PROPS on HISTORY:', props.history);
+    getAllMedHistory(props.user)
+  }, [props])
+
+  return (
+    <ScrollView>
+      <Button>Sort by Medication</Button>
+      {props.history.medication_history.map(drug => (
+
+        <Card style={styles.surface} key={drug._id}>
+          <Card.Title title={drug.name}  />
+          <Card.Content>
+            {/* <Title> {drug.name} </Title> */}
+            <Paragraph>
+              Date & Time: {drug.datetime}
+            </Paragraph>
+            <Paragraph>
+              Notes: {drug.notes}
+            </Paragraph>
+          </Card.Content>
+          <Card.Actions>
+            <Button>Edit</Button>
+            <Button onPress={() => getOneDrugById(drug._id)}>History</Button>
+          </Card.Actions>
+        </Card>
+      ))}
+    </ScrollView>
+  );
 }
 const mapStateToProps = (state) => ({
-    history: state.medicationHistoryReducer,
-    medications: state.medicationsReducer,
-    user: state.userReducer,
+  history: state.medicationHistoryReducer,
+  medications: state.medicationsReducer,
+  user: state.userReducer,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(History);
+
+const styles = StyleSheet.create({
+  surface: {
+    margin: 8,
+    // height: 100,
+    // width: 300,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // elevation: 4,
+  },
+});

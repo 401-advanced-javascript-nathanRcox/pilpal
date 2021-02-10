@@ -18,12 +18,12 @@ function Medication(props) {
   const newMedication = () => {
 
     let medObject = { user_id: props.user.id, token: props.user.token, medName, dosage, frequency, timeOfDay, medNote };
-    console.log('MedObject on Medication:', medObject);
+    // console.log('MedObject on Medication:', medObject);
     try {
       props.addMedication(medObject);
     }
     catch (error) {
-      console.log('error adding: ', error, 'invalidating token');
+      // console.log('error adding: ', error, 'invalidating token');
       props.invalidateToken();
     }
   }
