@@ -25,7 +25,7 @@ function TakeMedication(props) {
             user_id: props.user.id,
             medication_id: medication._id,
             name: medication.name,
-            date: date,
+            datetime: date,
             notes: note
           }, props.user.token);
         }

@@ -6,32 +6,32 @@ let initialState = {
 }
 
 export const getAllMedHistory = (payload) => dispatch => {
+  axios.defaults.headers.common = { 'Authorization': `bearer ${token}` }
+
   console.log('payload on history', payload);
-  return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.id}`, {
-    headers: { 'Authorization': payload.token }
-    })
+  return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.id}`)
     .then(response => {
       dispatch(getMed(response.data))
     })
     .catch(error => console.error('get all failed', error))
-  }
-  
+}
+
 const getMed = payload => {
   return {
     type: 'GETALL',
     payload: payload
   }
 }
-  
 
-export const addMedicationHistory = (newMedicationHistory, token) => async dispatch => {
+
+export const addMedicationHistory = (newMedicationHistory, token) => dispatch => {
   axios.defaults.headers.common = { 'Authorization': `bearer ${token}` }
   // console.log(newMedicationHistory, token);
-  return await axios.post(REACT_NATIVE_API + '/api/v2/medication-history',
+  return axios.post(REACT_NATIVE_API + '/api/v2/medication-history',
     newMedicationHistory)
     .then((response) => {
-      // console.log(response.data);
-      dispatch(addMedHistory(newMedicationHistory));
+      console.log(response.data);
+      dispatch(addMedHistory(response.data));
     });
 
 }
@@ -46,7 +46,8 @@ const medicationReducer = (state = initialState, action) => {
   switch (type) {
     case 'GETALL':
       return { medication_history: payload };
-
+    case 'ADD':
+      return { medication_history: [...state.medication_history, payload] }
     default:
       return state;
   }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
+import { back } from '../store/page-reducer';
 
 const mapDispatchToProps = { addMedication, invalidateToken };
 
@@ -21,6 +22,7 @@ function Medication(props) {
     // console.log('MedObject on Medication:', medObject);
     try {
       props.addMedication(medObject);
+      props.back();
     }
     catch (error) {
       // console.log('error adding: ', error, 'invalidating token');
