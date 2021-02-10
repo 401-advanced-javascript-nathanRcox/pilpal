@@ -11,11 +11,11 @@ let initialState = {
 export const getMedications = (payload) => async dispatch => {
   axios.defaults.headers.common = { 'Authorization': `bearer ${payload.token}` }
 
-  console.log({ payload });
+  // console.log({ payload });
   return await axios.get(
     REACT_NATIVE_API + '/api/v2/medications/user_id/' + payload.id)
     .then(response => {
-      console.log('before adding checked property', response.data)
+      // console.log('before adding checked property', response.data)
       response.data.forEach((medication) => {
         // console.log('medication = ', medication);
         medication.checked = false;
@@ -65,7 +65,7 @@ export const postMed = payload => {
 
 export const toggleChecked = (payload) => {
   payload = { ...payload, checked: !payload.checked };
-  console.log('toggled payload = ', payload);
+  // console.log('toggled payload = ', payload);
   return {
     type: 'TOGGLECHECKED',
     payload: payload
@@ -78,7 +78,7 @@ const medicationReducer = (state = initialState, action) => {
       // console.log('Payload:', payload);
       return { medications: [...state.medications, payload] };
     case 'GETALL':
-      console.log('payload array = ', payload)
+      // console.log('payload array = ', payload)
       return { medications: payload }
     case 'TOGGLECHECKED':
       //todo - can we find a way to do this in-place so we aren't changing the order?

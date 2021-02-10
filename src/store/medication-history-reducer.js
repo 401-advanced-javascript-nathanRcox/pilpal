@@ -18,13 +18,13 @@ export const getAllMedHistory = (payload) => dispatch => {
     .catch(error => console.error('get all failed', error))
 }
 
-export const addMedicationHistory = (newMedicationHistory) => async dispatch => {
-  axios.defaults.headers.common = { 'Authorization': `bearer ${payload.token}` }
-
+export const addMedicationHistory = (newMedicationHistory, token) => async dispatch => {
+  axios.defaults.headers.common = { 'Authorization': `bearer ${token}` }
+  // console.log(newMedicationHistory, token);
   return await axios.post(REACT_NATIVE_API + '/api/v2/medication-history',
     newMedicationHistory)
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       dispatch(addMedHistory(newMedicationHistory));
     });
 

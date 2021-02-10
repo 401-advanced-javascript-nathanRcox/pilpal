@@ -20,7 +20,7 @@ function SignIn(props) {
     // console.log('props = ', props)
     await props.retrieveToken();
     // console.log('props = ', props)
-    console.log('retrieved { token, user id } = ', props.user.token, ',  userID: ', props.user.id);
+    // console.log('retrieved { token, user id } = ', props.user.token, ',  userID: ', props.user.id);
     if (props.user.token && props.user.id)
       props.changePage('TakeMedication');
     // else
@@ -64,7 +64,7 @@ function SignIn(props) {
       <Button mode="contained" onPress={() => go()}>
         Sign In
       </Button>
-      <Button onPress={()=> props.changePage('SignUp')}>SignUp</Button>
+      <Button onPress={() => props.changePage('SignUp')}>SignUp</Button>
     </>
   )
 }
