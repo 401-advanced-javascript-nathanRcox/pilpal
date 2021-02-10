@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, Text } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
 
 const mapDispatchToProps = { addMedication, invalidateToken };

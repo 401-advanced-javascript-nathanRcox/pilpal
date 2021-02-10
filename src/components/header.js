@@ -16,42 +16,28 @@ function Header(props) {
 
   const closeMenu = () => setVisible(false);
 
+  const signOut = () => {
+    props.invalidateToken();
+    props.changePage('SignIn');
+  }
   return (
 
-    <Appbar.Header>
-      <Appbar.BackAction onPress={() => { props.back(props.page) }} />
-      <Appbar.Content title="PilPal" />
-      <Menu
-        onDismiss={closeMenu}
-        visible={visible}
-        anchor={
-          <Appbar.Action
-            disabled={isLoading}
-            color="white"
-            icon="more-vert"
-            onPress={onShowMenu}
-          />
-        }>
-        <Menu.Item icon="edit" title="Editar" onPress={onPressEdit} />
-      </Menu>
-    </Appbar.Header>
-
-    // <View>
-    //   <Appbar.Header>
-    //     <Appbar.BackAction onPress={() => { props.back(props.page) }} />
-    //     <Appbar.Content title="PilPal" />
-    //     <Menu
-    //       visible={visible}
-    //       onDismiss={closeMenu}
-    //       anchor={< Appbar.Action icon={MORE_ICON} onPress={openMenu} />}>
-    //       <Menu.Item onPress={() => { props.changePage('AddMedication') }} title="Add Medication" />
-    //       <Divider />
-    //       <Menu.Item onPress={() => { }} title="Item 2" />
-    //       <Divider />
-    //       <Menu.Item onPress={() => { props.invalidateToken }} title="Sign Out" />
-    //     </Menu>
-    //   </Appbar.Header>
-    // </View>
+    <View>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => { props.back(props.page) }} />
+        <Appbar.Content title="PilPal" />
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={< Appbar.Action icon={MORE_ICON} onPress={openMenu} />}>
+          <Menu.Item onPress={() => { props.changePage('AddMedication') }} title="Add Medication" />
+          <Divider />
+          <Menu.Item onPress={() => { }} title="Medication History" />
+          <Divider />
+          <Menu.Item onPress={() => signOut()} title="Sign Out" />
+        </Menu>
+      </Appbar.Header>
+    </View>
   )
 }
 
