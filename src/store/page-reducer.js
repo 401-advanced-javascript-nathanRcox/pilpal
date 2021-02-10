@@ -6,7 +6,7 @@ let initialState = {
 }
 
 export const back = (state = initialState) => {
-  console.log('going back to the last entry in ', state.navigationStack);
+  // console.log('going back to the last entry in ', state.navigationStack);
 
   return {
     type: 'BACK',
@@ -14,7 +14,7 @@ export const back = (state = initialState) => {
   }
 }
 export const changePage = (newPage) => {
-  console.log('changing page to: ', { newPage });
+  // console.log('changing page to: ', { newPage });
   return {
     type: 'CHANGEPAGE',
     payload: newPage
@@ -26,7 +26,7 @@ const pageReducer = (state = initialState, action) => {
   switch (type) {
     case 'CHANGEPAGE':
       let newNavigationStack = [...state.navigationStack, payload];
-      console.log('new navigation stack =', newNavigationStack);
+      // console.log('new navigation stack =', newNavigationStack);
       return { navigationStack: newNavigationStack, page: payload };
     case 'BACK':
       //todo: verify that this works

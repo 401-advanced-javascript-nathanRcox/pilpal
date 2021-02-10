@@ -9,8 +9,6 @@ import { changePage } from '../store/page-reducer';
 import { View } from 'react-native';
 
 const mapDispatchToProps = { changePage };
-import { useEffect } from 'react';
-
 
 function Main(props) {
 
@@ -25,9 +23,6 @@ function Main(props) {
             props.page.page === 'TakeMedication' && props.user.token ? <TakeMedication />
               : null
       }
-
-      {/* {page === 'TakeMedication' && props.user.token ? <TakeMedication /> : null}
-        {page === 'MedicationHistory' && props.user.token ? <MedicationHistory /> : null} */}
     </View>
   );
 }

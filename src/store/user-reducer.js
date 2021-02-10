@@ -11,9 +11,10 @@ let initialState = {
 }
 
 // create a function that saves your data asyncronously
-const storeToken = async (token) => {
+const storeToken = async (token, userId) => {
   try {
     await AsyncStorage.setItem('token', token);
+    await AsyncStorage.setItem('user_id', userId);
     console.log('stored token ', token);
   } catch (error) {
     // Error saving data
@@ -25,27 +26,28 @@ export const retrieveToken = () => async dispatch => {
   try {
     // AsyncStorage.clear();
     const token = await AsyncStorage.getItem('token');
-    if (token !== null) {
+    const userId = await AsyncStorage.getItem('user_id');
+
+    if (token && userId) {
       // Our data is fetched successfully
-      console.log('got the token!', token);
-      dispatch(getToken(token));
+      // console.log('got the token!', token, ' and user id ', userId);
+      dispatch(getToken({ token, userId }));
     }
   } catch (error) {
     // Error retrieving data
   }
 }
 
-const getToken = (token) => {
+const getToken = (payload) => {
   return {
     type: 'UPDATETOKEN',
-    payload: token
+    payload: payload
   }
 }
 
 export const invalidateToken = () => {
   console.log('invalidating token');
   AsyncStorage.clear();
-  // storeToken('');
   return {
     type: 'UPDATETOKEN',
     payload: ''
@@ -64,7 +66,7 @@ export const signUp = (newUser) => dispatch => {
       let user = result.data.user;
       console.log({ user });
       //save the auth token in the device's async storage (like a cookie)
-      storeToken(user.token);
+      storeToken(user.token, user.id);
       dispatch(getSignUp(user));
     })
 }
@@ -88,7 +90,7 @@ export const signIn = (user) => dispatch => {
     .then(result => {
       let user = result.data.user;
       //save the auth token in the device's async storage (like a cookie)
-      storeToken(user.token);
+      storeToken(user.token, user.id);
       dispatch(getSignIn(user));
     });
 
@@ -115,11 +117,10 @@ const userReducer = (state = initialState, action) => {
     //return payload;
     case 'UPDATETOKEN':
       console.log("payload", payload);
-      return { ...state, token: payload };
+      return { ...state, token: payload.token, id: payload.userId };
     default:
       return state;
   }
 }
 
 export default userReducer;
-
