@@ -62,12 +62,13 @@ export const signUp = (newUser) => dispatch => {
   })
     .then(result => {
       let user = result.data.user;
-      // console.log({ user });
+      console.log({ user });
       //save the auth token in the device's async storage (like a cookie)
       storeToken(user.token);
       dispatch(getSignUp(user));
     })
 }
+
 const getSignUp = (newUser) => {
   return {
     type: 'SIGNUP',
@@ -108,13 +109,13 @@ const userReducer = (state = initialState, action) => {
       return payload;
 
     case 'SIGNIN':
-      console.log("payload", payload);
+      // console.log("payload", payload);
       return payload;
 
     //return payload;
     case 'UPDATETOKEN':
       console.log("payload", payload);
-      return { ...state, token: payload }
+      return { ...state, token: payload };
     default:
       return state;
   }
