@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getMedications } from '../store/medication-reducer';
+import { getMedications, toggleChecked } from '../store/medication-reducer';
 import { TextInput, Button, Text, Checkbox } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
 import { addMedicationHistory } from '../store/medication-history-reducer';
 
-const mapDispatchToProps = { invalidateToken, getMedications };
+const mapDispatchToProps = { invalidateToken, getMedications, toggleChecked };
 
 function TakeMedication(props) {
   // const [medicationId, setMedicationId] = useState('');
@@ -36,14 +36,8 @@ function TakeMedication(props) {
     }
   }
 
-  const toggleSelection = (event, medication) => {
-    console.log('in toggle selection', event, medication);
-    event.target.checked = !event.target.checked;
-    if (event.target.checked) setSelectedMedicationList([...selectedMedicationList, medication])
-    else setSelectedMedicationList(selectedMedicationList.filter(listMedication => {
-      if (listMedication.id === medication.id) return medication;
-    }))
-    event.preventDefault;
+  const toggleSelection = (medication) => {
+    props.toggleChecked(medication);
   }
 
   const getMeds = async () => {
@@ -70,14 +64,16 @@ function TakeMedication(props) {
         onChangeText={note => setNote(note)}
       />
       {props.medications.medications.map((medication) => (
-        <Checkbox.Item
-          key={medication.id}
-          checked={false}
-          label={medication.name}
-          onPress={() => {
-            toggleSelection(medication)
-          }} />
-
+        <>
+          {console.log(medication)}
+          < Checkbox.Item
+            key={medication.id}
+            status={medication.checked ? "checked" : "unchecked"}
+            label={medication.name}
+            onPress={() => {
+              toggleSelection(medication)
+            }} />
+        </>
       )
       )}
       <Text>{errorMessage}</Text>
