@@ -6,16 +6,17 @@ let initialState = {
 }
 
 export const getAllMedHistory = (payload) => dispatch => {
-  console.log('payload on history', payload);
-  return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.id}`, {
+  console.log('payload in getAllMedHistory', payload);
+  return axios.get(`${REACT_NATIVE_API}/api/v2/medication-history/user_id/${payload.id}`, {
     headers: { 'Authorization': payload.token }
     })
     .then(response => {
       dispatch(getMed(response.data))
+      console.log('Response.data:', response.data);
     })
     .catch(error => console.error('get all failed', error))
   }
-  
+
 const getMed = payload => {
   return {
     type: 'GETALL',
@@ -31,7 +32,7 @@ export const addMedicationHistory = (newMedicationHistory, token) => async dispa
     newMedicationHistory)
     .then((response) => {
       // console.log(response.data);
-      dispatch(addMedHistory(newMedicationHistory));
+      dispatch(addMedHistory(response.data));
     });
 
 }
