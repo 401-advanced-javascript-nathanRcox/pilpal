@@ -16,16 +16,18 @@ function SignIn(props) {
   const [errorMessage, setErrorMessage] = useState('');
 
   const getToken = async () => {
-    const token = await props.retrieveToken();
-    console.log('retrieved token = ', token);
-    if (token) props.changePage('TakeMedication');
+    console.log('props = ', props)
+    await props.retrieveToken();
+    console.log('props = ', props)
+    console.log('retrieved token = ', props.user.token);
+    if (props.user.token) props.changePage('TakeMedication');
   }
 
   useEffect(() => {
     getToken();
     //check if user is signed in. If yes, skip the authentication requirement
 
-  }, []);
+  }, [props.user.token]);
 
   const go = async () => {
     try {
