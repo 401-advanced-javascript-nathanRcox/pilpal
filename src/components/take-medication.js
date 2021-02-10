@@ -25,7 +25,7 @@ function TakeMedication(props) {
             user_id: props.user.id,
             medication_id: medication._id,
             name: medication.name,
-            date: date,
+            datetime: date,
             notes: note
           }, props.user.token);
         }
@@ -74,11 +74,12 @@ function TakeMedication(props) {
         value={note}
         onChangeText={note => setNote(note)}
       />
-      {props.medications.medications.map((medication) => (
+      {props.medications.medications.map(medication => (
         <>
           {/* {console.log(medication)} */}
           < Checkbox.Item
-            key={medication.id}
+          // {console.log()}
+            key={medication._id}
             status={medication.checked ? "checked" : "unchecked"}
             label={medication.name}
             onPress={() => {
