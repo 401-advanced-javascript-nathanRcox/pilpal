@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Text, Surface, Button, Avatar, Card, Title, Paragraph } from 'react-native-paper';
+import { Button, Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, ScrollView } from 'react-native';
 import { getAllMedHistory } from '../store/medication-history-reducer';
 
@@ -24,7 +24,6 @@ function History(props) {
     <ScrollView>
       <Button>Sort by Medication</Button>
       {props.history.map(drug => (
-        <>
         <Card style={styles.surface} key={drug._id}>
           <Card.Title title={drug.name}  />
           <Card.Content>
@@ -41,7 +40,6 @@ function History(props) {
             <Button onPress={() => getOneDrugById(drug._id)}>History</Button>
           </Card.Actions>
         </Card>
-      </>
       ))}
     </ScrollView>
   );

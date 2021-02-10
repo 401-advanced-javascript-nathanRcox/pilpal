@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addMedicationHistory } from '../store/medication-history-reducer';
 import { getMedications, toggleChecked } from '../store/medication-reducer';
-import { TextInput, Button, Text, Checkbox } from 'react-native-paper';
+import { Surface, TextInput, Button, Text, Checkbox } from 'react-native-paper';
+import { StyleSheet, ScrollView } from 'react-native';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
 
@@ -74,22 +75,23 @@ function TakeMedication(props) {
         value={note}
         onChangeText={note => setNote(note)}
       />
-      {props.medications.medications.map(medication => (
-        <>
-          {/* {console.log(medication)} */}
-          < Checkbox.Item
-          // {console.log()}
-            key={medication._id}
-            status={medication.checked ? "checked" : "unchecked"}
-            label={medication.name}
-            onPress={() => {
-              toggleSelection(medication)
-            }} />
-        </>
-      )
-      )}
-      <Text>{errorMessage}</Text>
-      <Button onPress={() => takeMedication()}>Take Medication</Button>
+      <ScrollView>
+        {props.medications.medications.map(medication => (
+            <Surface key={medication._id}>
+              < Checkbox.Item
+                // {console.log()}
+                
+                status={medication.checked ? "checked" : "unchecked"}
+                label={medication.name}
+                onPress={() => {
+                  toggleSelection(medication)
+                }} />
+            </Surface>
+        )
+        )}
+        <Text>{errorMessage}</Text>
+        <Button onPress={() => takeMedication()}>Take Medication</Button>
+      </ScrollView>
     </>
   )
 }

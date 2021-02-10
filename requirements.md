@@ -27,14 +27,17 @@ To provide a user with an easy way of tracking the taking of medications, becaus
 
 ## Stretch goals
 
-- Edit and delete a profile.
-- Edit and delete a medication.
-- Display medications by time, not just date, so that a med that is taken twice a day will show up twice in the list.
-- Reminders.
-- Sign out.
-- Deploy: Hippa is something to have to consider before deployment is possible.
-- Tablet version.
-- Desktop and web version.
+- [x] Sign out.
+- [ ] Error handling.
+- [ ] Use email to reset a forgotten password.
+- [ ] Edit and delete a medication.
+- [ ] Edit and delete a profile.
+- [ ] Display medications to take by time, not just date, so that a med that is taken twice a day will show up twice in the list, and the list will show in chronological order.
+- [ ] Reminders.
+- [ ] Deploy: Hippa is something to have to consider before deployment is possible.
+- [ ] Tablet version.
+- [ ] Desktop and web version.
+- [ ] Add pictures of pills.
 
 ## Functional Requirements
 
