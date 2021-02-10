@@ -13,7 +13,7 @@ let initialState = {
 // const URL = 'https://pilpal-server.herokuapp.com/api/v2/medications'
 
 export const addMedication = (payload) => dispatch => {
-  console.log('Token:', payload.token)
+  // console.log('Token:', payload.token)
   return axios.post(REACT_NATIVE_API + '/api/v2/medications', 
     {
     user_id: payload.user_id,

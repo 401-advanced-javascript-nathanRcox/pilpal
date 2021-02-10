@@ -8,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const mapDispatchToProps = { addMedication, invalidateToken };
 
 function TakeMedication(props) {
-  console.log('props in take medication = ', props)
+  // console.log('props in take medication = ', props)
   const [medicationId, setMedicationId] = useState('');
   const [userId, setUserId] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
@@ -44,12 +44,12 @@ function TakeMedication(props) {
       date,
       note
     };
-    console.log('Object to save from Take Medication page:', medObject);
+    // console.log('Object to save from Take Medication page:', medObject);
     try {
       props.addMedication(medObject);
     }
     catch (error) {
-      console.log('error adding: ', error, 'invalidating token');
+      // console.log('error adding: ', error, 'invalidating token');
       props.invalidateToken();
     }
   }

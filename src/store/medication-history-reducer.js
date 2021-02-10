@@ -7,7 +7,7 @@ let initialState = {
 }
 
 export const getAllMedHistory = (payload) => dispatch => {
-  console.log('payload on history', payload.token);
+  // console.log('payload on history', payload.token);
   return axios.get(REACT_NATIVE_API + '/api/v2/medication-history', {
     headers: { 'Authorization': payload }
     })

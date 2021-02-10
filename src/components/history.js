@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Text, View} from 'react-native-paper';
+import { Text, Surface } from 'react-native-paper';
 import { getAllMedHistory } from '../store/medication-history-reducer';
 
 const mapDispatchToProps = { getAllMedHistory };
 
 function History(props) {
-    // console.log('I AM THE PROPS!', props)
 
-    useEffect(()=> {
-       getAllMedHistory(props.user.token)
-    }, [])
+  useEffect(() => {
+    console.log('PROPS on HISTORY:', props);
+    getAllMedHistory(props.user)
+  }, [props])
 
-    return (
-        <>
-        {console.log('I AM THE PROPS!', props)}
-            {props.history.medication_history.map(data => {
-                <View key={data._id}>
-                    <Text>
-                        {data.name}
-                    </Text>
-                    <Text>
-                        {data.datetime}
-                    </Text>
-                    <Text>
-                        {data.notes}
-                    </Text>
-                </View>
-            })}
-        </>
-    );
+  return (
+    <>
+      <Text>Test</Text>
+      {console.log('PROPS in HISTORY Render', props)}
+      {props.history.medication_history.map(data => (
+        <Surface key={data._id}>
+          <Text>
+            Test {data.name}
+          </Text>
+          <Text>
+            {data.datetime}
+          </Text>
+          <Text>
+            {data.notes}
+          </Text>
+        </Surface>
+      ))}
+    </>
+  );
 }
 const mapStateToProps = (state) => ({
-    history: state.medicationHistoryReducer,
-    medications: state.medicationsReducer,
-    user: state.userReducer,
+  history: state.medicationHistoryReducer,
+  medications: state.medicationsReducer,
+  user: state.userReducer,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(History);

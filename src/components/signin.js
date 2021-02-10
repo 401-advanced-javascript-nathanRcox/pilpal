@@ -16,10 +16,10 @@ function SignIn(props) {
   const [errorMessage, setErrorMessage] = useState('');
 
   const getToken = async () => {
-    console.log('props = ', props)
+    // console.log('props = ', props)
     await props.retrieveToken();
-    console.log('props = ', props)
-    console.log('retrieved token = ', props.user.token);
+    // console.log('props = ', props)
+    // console.log('retrieved token = ', props.user.token);
     if (props.user.token) props.changePage('TakeMedication');
   }
 
