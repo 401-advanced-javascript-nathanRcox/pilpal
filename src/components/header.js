@@ -32,7 +32,7 @@ function Header(props) {
           anchor={< Appbar.Action icon={MORE_ICON} onPress={openMenu} />}>
           <Menu.Item onPress={() => { props.changePage('AddMedication') }} title="Add Medication" />
           <Divider />
-          <Menu.Item onPress={() => { }} title="Medication History" />
+          <Menu.Item onPress={() => { props.changePage('MedicationHistory') }} title="Medication History" />
           <Divider />
           <Menu.Item onPress={() => signOut()} title="Sign Out" />
         </Menu>

@@ -2,7 +2,7 @@ import React from 'react';
 import SignIn from './signin';
 import AddMedication from './add-medication';
 // import TakeMedication from './src/components/take-medication';
-// import MedicationHistory from './src/components/history';
+import MedicationHistory from './history';
 import { connect } from 'react-redux';
 import { changePage } from '../store/page-reducer';
 import { View } from 'react-native';
@@ -20,7 +20,9 @@ function Main(props) {
         props.page.page === 'SignUp' ? <SignUp />
           :
           props.page.page === 'AddMedication' && props.user.token ? <AddMedication />
-            : null
+            : 
+            props.page.page === 'MedicationHistory' && props.user.token ? <MedicationHistory />
+              : null
       }
 
       {/* {page === 'TakeMedication' && props.user.token ? <TakeMedication /> : null}

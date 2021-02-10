@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getAllMedication } from '../store/medication-history-reducer';
 import { Text, View} from 'react-native-paper';
+import { getAllMedHistory } from '../store/medication-history-reducer';
 
-const mapDispatchToProps = { getAllMedication };
+const mapDispatchToProps = { getAllMedHistory };
 
 function History(props) {
+    // console.log('I AM THE PROPS!', props)
 
+    useEffect(()=> {
+       getAllMedHistory(props.user.token)
+    }, [])
 
     return (
         <>
-            {props.history.map(data => {
+        {console.log('I AM THE PROPS!', props)}
+            {props.history.medication_history.map(data => {
                 <View key={data._id}>
                     <Text>
                         {data.name}
