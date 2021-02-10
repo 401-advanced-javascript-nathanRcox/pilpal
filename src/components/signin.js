@@ -4,6 +4,7 @@ import { StyleSheet, Link } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn, retrieveToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const mapDispatchToProps = { signIn, changePage, retrieveToken };
 
@@ -19,14 +20,16 @@ function SignIn(props) {
     // console.log('props = ', props)
     await props.retrieveToken();
     // console.log('props = ', props)
-    // console.log('retrieved token = ', props.user.token);
-    if (props.user.token) props.changePage('TakeMedication');
+    console.log('retrieved { token, user id } = ', props.user.token, ',  userID: ', props.user.id);
+    if (props.user.token && props.user.id)
+      props.changePage('TakeMedication');
+    // else
+    //   AsyncStorage.clear();
   }
 
   useEffect(() => {
     getToken();
     //check if user is signed in. If yes, skip the authentication requirement
-
   }, [props.user.token]);
 
   const go = async () => {

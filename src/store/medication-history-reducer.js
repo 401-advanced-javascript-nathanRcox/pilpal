@@ -1,15 +1,14 @@
-
 import { REACT_NATIVE_API } from '@env';
 import axios from 'axios';
-//category reducer
+
 let initialState = {
   medication_history: []
 }
 
 export const getAllMedHistory = (payload) => dispatch => {
   // console.log('payload on history', payload.token);
-  return axios.get(REACT_NATIVE_API + '/api/v2/medication-history', {
-    headers: { 'Authorization': payload }
+  return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.user_id}`, {
+    headers: { 'Authorization': payload.headers }
     })
     .then(response => {
       dispatch(addMedicationHistory(response.data))
