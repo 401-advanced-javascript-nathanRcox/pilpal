@@ -18,7 +18,7 @@ function SignIn(props) {
 
   const getToken = async () => {
     const token = await props.retrieveToken();
-    console.log('retrieved token = ', token);
+    // console.log('retrieved token = ', token);
     if (token) props.changePage('AddMedication');
   }
 
@@ -37,7 +37,7 @@ function SignIn(props) {
         username,
         password
       });
-      console.log('STATE AFTER SIGN IN', props.user);
+      // console.log('STATE AFTER SIGN IN', props.user);
       props.changePage('AddMedication');
       // console.log(props.user)
     }
