@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { addMedication } from '../store/medication-reducer';
-import { TextInput, Button, Text } from 'react-native-paper';
+import { getMedications } from '../store/medication-reducer';
+import { TextInput, Button, Text, Checkbox } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { addMedicationHistory } from '../store/medication-history-reducer';
 
-const mapDispatchToProps = { addMedication, invalidateToken };
+const mapDispatchToProps = { invalidateToken, getMedications };
 
 function TakeMedication(props) {
   console.log('props in take medication = ', props)
-  const [medicationId, setMedicationId] = useState('');
-  const [userId, setUserId] = useState('');
+  // const [medicationId, setMedicationId] = useState('');
+  // const [userId, setUserId] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedMedicationList, setSelectedMedicationList] = useState([]);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -37,16 +39,19 @@ function TakeMedication(props) {
   };
 
   const takeMedication = () => {
-
-    let medObject = {
-      user_id: props.user.id,
-      token: props.user.token,
-      date,
-      note
-    };
-    console.log('Object to save from Take Medication page:', medObject);
     try {
-      props.addMedication(medObject);
+      selectedMedicationList.forEach((medication) => {
+        console.log({ medication });
+        props.addMedicationHistory({
+          user_id: props.user.id,
+          medication_id: medication.id,
+          name: medication.name,
+          date: date,
+          notes: note
+        });
+        props.page.changePage('MedicationHistory');
+      })
+
     }
     catch (error) {
       console.log('error adding: ', error, 'invalidating token');
@@ -55,13 +60,16 @@ function TakeMedication(props) {
   }
 
   useEffect(() => {
-    setUserId(props.user.id);
-  }, [])
+    //setUserId(props.user.id);
+    props.getMedications({ id: props.user.id, token: props.user.token });
+    console.log(props.medications)
+  }, []);
+
   return (
     <>
       <Button label="Date" onPress={showDatepicker}>Date</Button>
       <Button label="Time" onPress={showTimepicker}>Time</Button>
-      {show && (
+      {show ?
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
@@ -70,7 +78,7 @@ function TakeMedication(props) {
           display="default"
           onChange={onChange}
         />
-      )}
+        : null}
       <TextInput
         label="Date"
         value={date}
@@ -83,7 +91,7 @@ function TakeMedication(props) {
         onChangeText={note => setNote(note)}
       />
       <Text>{errorMessage}</Text>
-
+      {props.me}
       <Button onPress={() => takeMedication()}>Take Medication</Button>
     </>
   )
@@ -92,6 +100,7 @@ function TakeMedication(props) {
 const mapStateToProps = (state) => ({
   history: state.medicationHistoryReducer,
   medications: state.medicationsReducer,
+  medicationHistory: state.medicationHistoryReducer,
   user: state.userReducer,
 });
 

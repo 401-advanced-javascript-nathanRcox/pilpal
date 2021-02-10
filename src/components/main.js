@@ -24,9 +24,6 @@ function Main(props) {
             props.page.page === 'TakeMedication' && props.user.token ? <TakeMedication />
               : null
       }
-
-      {/* {page === 'TakeMedication' && props.user.token ? <TakeMedication /> : null}
-        {page === 'MedicationHistory' && props.user.token ? <MedicationHistory /> : null} */}
     </View>
   );
 }
