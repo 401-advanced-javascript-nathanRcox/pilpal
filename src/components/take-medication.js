@@ -6,13 +6,29 @@ import { Surface, TextInput, Button, Text, Checkbox } from 'react-native-paper';
 import { StyleSheet, ScrollView } from 'react-native';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
+import { DatePickerModal } from 'react-native-paper-dates'
+import 'intl';
+import 'intl/locale-data/jsonp/en'; // or any other locale you need
+// import { SelectDate } from './date-time-picker';
 
 const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 
 function TakeMedication(props) {
-  const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
+  const [date, setDate] = useState();
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [visible, setVisible] = React.useState(true)
+  const onDismiss = React.useCallback(() => {
+      setVisible(false)
+    }, [setVisible])
+  
+    const onChange = React.useCallback(({ date }) => {
+      setVisible(false)
+      console.log({ date })
+    }, [])
+  
+    const selectDate = new Date()
+  
 
   const takeMedication = () => {
     try {
@@ -64,6 +80,20 @@ function TakeMedication(props) {
 
   return (
     <>
+    <DatePickerModal
+        mode="single"
+        visible={visible}
+        onDismiss={onDismiss}
+        date={selectDate}
+        onConfirm={onChange}
+        //saveLabel="Save" // optional
+        label="Select date" // optional
+        animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
+        locale={'en'} // optional, default is automically detected by your system
+      />
+      <Button onPress={()=> setVisible(true)}>
+        Select A Date
+      </Button>
       <TextInput
         label="Date"
         value={date}
