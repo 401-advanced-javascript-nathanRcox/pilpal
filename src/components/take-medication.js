@@ -6,7 +6,7 @@ import { Surface, TextInput, Button, Text, Checkbox } from 'react-native-paper';
 import { StyleSheet, ScrollView } from 'react-native';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
-import { DatePickerModal } from 'react-native-paper-dates'
+import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
 // import { SelectDate } from './date-time-picker';
@@ -18,18 +18,33 @@ function TakeMedication(props) {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [visible, setVisible] = React.useState(false)
-  const onDismiss = React.useCallback(() => {
-    setVisible(false)
-  }, [setVisible])
+  const [visibleDate, setVisibleDate] = React.useState(false)
+  const [visibleTime, setVisibleTime] = React.useState(false)
 
-  const onChange = React.useCallback(({ date }) => {
-    setVisible(false)
+  const onDismissDate = React.useCallback(() => {
+    setVisibleDate(false)
+  }, [setVisibleDate])
+
+  const onChangeDate = React.useCallback(({ date }) => {
+    setVisibleDate(false)
     setDate(date.toLocaleDateString());
-    // console.log('DATE = ', date.toLocaleDateString())
+    console.log('DATE = ', date.toLocaleDateString())
   }, [])
 
-  const selectDate = new Date()
+  const onDismissTime = React.useCallback(() => {
+    setVisibleTime(false)
+  }, [setVisibleTime])
+
+  const onConfirmTime = React.useCallback(
+    ({ hours, minutes }) => {
+      setVisibleTime(false);
+      setTime(`${hours}:${minutes}`)
+      console.log({ hours, minutes });
+    },
+    [setVisibleTime]
+  );
+
+  const selectDate = new Date();
 
 
   const takeMedication = () => {
@@ -85,23 +100,40 @@ function TakeMedication(props) {
     <>
       <DatePickerModal
         mode="single"
-        visible={visible}
-        onDismiss={onDismiss}
+        visible={visibleDate}
+        onDismiss={onDismissDate}
         date={selectDate}
-        onConfirm={onChange}
+        onConfirm={onChangeDate}
         //saveLabel="Save" // optional
         label="Select date" // optional
         animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button onPress={() => setVisible(true)}>
-        Date: {date}
+      <Button onPress={() => setVisibleDate(true)}>
+        Pick Date: {date}
       </Button>
+      <TimePickerModal
+        visible={visibleTime}
+        onDismiss={onDismissTime}
+        onConfirm={onConfirmTime}
+        hours={selectDate.getHours()} // default: current hours
+        minutes={selectDate.getMinutes()} // default: current minutes
+        label="Select time" // optional, default 'Select time'
+        cancelLabel="Cancel" // optional, default: 'Cancel'
+        confirmLabel="Ok" // optional, default: 'Ok'
+        animationType="fade" // optional, default is 'none'
+        locale={'en'} // optional, default is automically detected by your system
+      />
+      <Button onPress={() => setVisibleTime(true)}>
+        Pick Time: {time}
+      </Button>
+
       <TextInput
         label="Date"
         value={date}
+        pointerEvents="none"
         style={styles.input}
-        onPress={() => setVisible(true)}
+        onPress={() => setVisibleDate(true)}
         onChangeText={date => setDate(date)}
       />
 
@@ -109,6 +141,8 @@ function TakeMedication(props) {
         label="Time"
         style={styles.input}
         value={time}
+        pointerEvents="none"
+        onPress={() => setVisibleTime(true)}
         onChangeText={time => setTime(time)}
       />
 
