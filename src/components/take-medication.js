@@ -14,21 +14,23 @@ import 'intl/locale-data/jsonp/en'; // or any other locale you need
 const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 
 function TakeMedication(props) {
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [visible, setVisible] = React.useState(true)
+  const [visible, setVisible] = React.useState(false)
   const onDismiss = React.useCallback(() => {
-      setVisible(false)
-    }, [setVisible])
-  
-    const onChange = React.useCallback(({ date }) => {
-      setVisible(false)
-      console.log({ date })
-    }, [])
-  
-    const selectDate = new Date()
-  
+    setVisible(false)
+  }, [setVisible])
+
+  const onChange = React.useCallback(({ date }) => {
+    setVisible(false)
+    setDate(date.toLocaleDateString());
+    console.log('DATE = ', date.toLocaleDateString())
+  }, [])
+
+  const selectDate = new Date()
+
 
   const takeMedication = () => {
     try {
@@ -45,7 +47,7 @@ function TakeMedication(props) {
           }, props.user.token);
         }
       });
-      console.log('PROPS AFTER SAVING = ', props);
+      // console.log('PROPS AFTER SAVING = ', props);
       props.changePage('MedicationHistory');
     }
     catch (error) {
@@ -74,13 +76,13 @@ function TakeMedication(props) {
   }
   useEffect(() => {
     //setUserId(props.user.id);
-    console.log('PROPS ON LOADING TAKE MEDICATION PAGE', props);
+    // console.log('PROPS ON LOADING TAKE MEDICATION PAGE', props);
     getMeds();
   }, []);
 
   return (
     <>
-    <DatePickerModal
+      <DatePickerModal
         mode="single"
         visible={visible}
         onDismiss={onDismiss}
@@ -91,13 +93,20 @@ function TakeMedication(props) {
         animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button onPress={()=> setVisible(true)}>
-        Select A Date
+      <Button onPress={() => setVisible(true)}>
+        Date: {date}
       </Button>
       <TextInput
         label="Date"
         value={date}
+        onPress={() => setVisible(true)}
         onChangeText={date => setDate(date)}
+      />
+
+      <TextInput
+        label="Time"
+        value={time}
+        onChangeText={time => setTime(time)}
       />
 
       <TextInput
@@ -108,16 +117,16 @@ function TakeMedication(props) {
 
       <ScrollView>
         {props.medications.medications.map(medication => (
-            <Surface key={medication._id}>
-              < Checkbox.Item
-                // {console.log()}
-                
-                status={medication.checked ? "checked" : "unchecked"}
-                label={medication.name}
-                onPress={() => {
-                  toggleSelection(medication)
-                }} />
-            </Surface>
+          <Surface key={medication._id}>
+            < Checkbox.Item
+              // {console.log()}
+
+              status={medication.checked ? "checked" : "unchecked"}
+              label={medication.name}
+              onPress={() => {
+                toggleSelection(medication)
+              }} />
+          </Surface>
         )
         )}
         <Text>{errorMessage}</Text>
