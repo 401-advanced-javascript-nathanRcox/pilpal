@@ -6,8 +6,7 @@ let initialState = {
 }
 
 export const back = (state = initialState) => {
-  // console.log('going back to the last entry in ', state.navigationStack);
-
+  console.log('going back to the last entry in ', state.navigationStack);
   return {
     type: 'BACK',
     payload: state
