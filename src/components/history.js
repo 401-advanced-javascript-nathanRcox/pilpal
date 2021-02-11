@@ -39,36 +39,54 @@ function History(props) {
   }, [])
 
   return (
-    <ScrollView>
-      <>
-        { displayMedProfile === true ?
-          <Card style={styles.surface}>
-            <Card.Title title={medProfile[0].name} />
-            <Card.Content>
-              {/* <Title> {drug.name} </Title> */}
-              <Paragraph>
-                Dosage: {medProfile[0].dosage}
-              </Paragraph>
-              <Paragraph>
-                Frequency: {medProfile[0].frequency}
-              </Paragraph>
-              <Paragraph>
-                Time of Day: {medProfile[0].time_of_day}
-              </Paragraph>
-              <Paragraph>
-                Notes: {medProfile[0].notes}
-              </Paragraph>
-            </Card.Content>
-            <Card.Actions>
-              <Button>Edit</Button>
-              <Button onPress={() => {
-                setDisplayAllHistory(true), setDisplayMedProfile(false),
-                  setDisplayOneMedHistory(false)
-              }}>Back to History</Button>
-            </Card.Actions>
-          </Card>
-          : displayAllHistory === true ?
-            props.history.map(drug => (
+    <>
+      { displayMedProfile === true ?
+        <Card style={styles.surface}>
+          <Card.Title title={medProfile[0].name} />
+          <Card.Content>
+            {/* <Title> {drug.name} </Title> */}
+            <Paragraph>
+              Dosage: {medProfile[0].dosage}
+            </Paragraph>
+            <Paragraph>
+              Frequency: {medProfile[0].frequency}
+            </Paragraph>
+            <Paragraph>
+              Time of Day: {medProfile[0].time_of_day}
+            </Paragraph>
+            <Paragraph>
+              Notes: {medProfile[0].notes}
+            </Paragraph>
+          </Card.Content>
+          <Card.Actions>
+            <Button>Edit</Button>
+            <Button onPress={() => {
+              setDisplayAllHistory(true), setDisplayMedProfile(false),
+                setDisplayOneMedHistory(false)
+            }}>Back to History</Button>
+          </Card.Actions>
+        </Card>
+        : displayAllHistory === true ?
+          props.history.map(drug => (
+            <Card style={styles.surface} key={drug._id}>
+              <Card.Title title={drug.name} />
+              <Card.Content>
+                {/* <Title> {drug.name} </Title> */}
+                <Paragraph>
+                  Date & Time: {drug.date} {drug.time_of_day}
+                </Paragraph>
+                <Paragraph>
+                  Notes: {drug.notes}
+                </Paragraph>
+              </Card.Content>
+              <Card.Actions>
+                <Button onPress={() => getOneDrugById(drug.medication_id)}>Drug Profile</Button>
+                <Button onPress={() => getAllHistoryOneMed(drug.medication_id)}>Drug History</Button>
+              </Card.Actions>
+            </Card>
+          ))
+          : displayOneMedHistory === true ?
+            historyOfOne.map(drug => (
               <Card style={styles.surface} key={drug._id}>
                 <Card.Title title={drug.name} />
                 <Card.Content>
@@ -81,33 +99,13 @@ function History(props) {
                   </Paragraph>
                 </Card.Content>
                 <Card.Actions>
-                  <Button onPress={() => getOneDrugById(drug.medication_id)}>Drug Profile</Button>
-                  <Button onPress={() => getAllHistoryOneMed(drug.medication_id)}>Drug History</Button>
+                  <Button onPress={() => setDisplayAllHistory(true)}>Back to History</Button>
                 </Card.Actions>
               </Card>
             ))
-            : displayOneMedHistory === true ?
-              historyOfOne.map(drug => (
-                <Card style={styles.surface} key={drug._id}>
-                  <Card.Title title={drug.name} />
-                  <Card.Content>
-                    {/* <Title> {drug.name} </Title> */}
-                    <Paragraph>
-                      Date & Time: {drug.date} {drug.time_of_day}
-                    </Paragraph>
-                    <Paragraph>
-                      Notes: {drug.notes}
-                    </Paragraph>
-                  </Card.Content>
-                  <Card.Actions>
-                    <Button onPress={() => setDisplayAllHistory(true)}>Back to History</Button>
-                  </Card.Actions>
-                </Card>
-              ))
-              : <Text>''</Text>
-        }
-      </>
-    </ScrollView>
+            : <Text>''</Text>
+      }
+    </>
   );
 }
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
-import { TextInput, Button, Text } from 'react-native-paper';
+import { TextInput, Button, Text, Card } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
 import { NavToggle } from './add-take-toggle';
+import { StyleSheet } from 'react-native';
 
 const mapDispatchToProps = { addMedication, invalidateToken, changePage };
 
@@ -74,11 +75,28 @@ function Medication(props) {
         newMedication()
       }}>Add a Medication</Button>
       <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
+      <Text style={styles.header}>Medications</Text>
+      {props.medications.medications.map(medication => (
+        <Card style={styles.surface} key={medication._id}>
+          <Card.Title title={medication.name} />
+        </Card>
 
+      )
+      )}
+      <Text style={styles.error}>{errorMessage}</Text>
     </>
   )
 }
 
+const styles = StyleSheet.create({
+  header: {
+    marginTop: 5,
+    paddingVertical: 5,
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+  }
+});
 const mapStateToProps = (state) => ({
   history: state.medicationHistoryReducer,
   medications: state.medicationsReducer,
