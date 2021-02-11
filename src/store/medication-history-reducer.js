@@ -6,10 +6,12 @@ let initialState = {
 }
 
 export const getAllMedHistory = (payload) => dispatch => {
+
   axios.defaults.headers.common = { 'Authorization': `bearer ${payload.token}` }
 
   console.log('payload on history', payload);
   return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.id}`)
+
     .then(response => {
       dispatch(getMed(response.data))
       // console.log('Response.data:', response.data);
@@ -32,8 +34,7 @@ export const addMedicationHistory = (newMedicationHistory, token) => dispatch =>
     .then((response) => {
       // console.log(response.data);
       dispatch(addMedHistory(response.data));
-    });
-
+  });
 }
 
 const addMedHistory = (newMedicationHistory) => {

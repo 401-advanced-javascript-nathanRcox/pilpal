@@ -29,7 +29,7 @@ export const getMedications = (payload) => async dispatch => {
 
 const getMed = payload => {
   return {
-    type: 'GETALL',
+    type: 'GET-ALL',
     payload: payload
   }
 }
@@ -75,10 +75,10 @@ export const toggleChecked = (payload) => {
 const medicationReducer = (state = initialState, action) => {
   let { type, payload } = action;
   switch (type) {
-    case 'ADD':
+    case 'ADD-MED':
       // console.log('Payload:', payload);
       return { medications: [...state.medications, payload] };
-    case 'GETALL':
+    case 'GET-ALL':
       // console.log('payload array = ', payload)
       return { medications: payload }
     case 'TOGGLECHECKED':
