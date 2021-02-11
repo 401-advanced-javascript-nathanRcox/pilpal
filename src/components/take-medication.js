@@ -10,7 +10,8 @@ import { changePage } from '../store/page-reducer';
 const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 
 function TakeMedication(props) {
-  const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
+  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -71,6 +72,12 @@ function TakeMedication(props) {
       />
 
       <TextInput
+        label="Time"
+        value={time}
+        onChangeText={time => setTime(time)}
+      />
+
+      <TextInput
         label="Notes"
         value={note}
         onChangeText={note => setNote(note)}
@@ -78,16 +85,16 @@ function TakeMedication(props) {
 
       <ScrollView>
         {props.medications.medications.map(medication => (
-            <Surface key={medication._id}>
-              < Checkbox.Item
-                // {console.log()}
-                
-                status={medication.checked ? "checked" : "unchecked"}
-                label={medication.name}
-                onPress={() => {
-                  toggleSelection(medication)
-                }} />
-            </Surface>
+          <Surface key={medication._id}>
+            < Checkbox.Item
+              // {console.log()}
+
+              status={medication.checked ? "checked" : "unchecked"}
+              label={medication.name}
+              onPress={() => {
+                toggleSelection(medication)
+              }} />
+          </Surface>
         )
         )}
         <Text>{errorMessage}</Text>
