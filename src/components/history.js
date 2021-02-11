@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Text, Card, Title, Paragraph } from 'react-native-paper';
+import { Button, Text, Card, Paragraph } from 'react-native-paper';
 import { StyleSheet, ScrollView } from 'react-native';
-import { getAllMedHistory, getHistoryOneMed } from '../store/medication-history-reducer';
-import { getOneMed } from '../store/medication-reducer';
+import { getAllMedHistory } from '../store/medication-history-reducer';
 
-
-const mapDispatchToProps = { getAllMedHistory, getHistoryOneMed, getOneMed };
+const mapDispatchToProps = { getAllMedHistory };
 
 function History(props) {
 
@@ -44,7 +42,6 @@ function History(props) {
         <Card style={styles.surface}>
           <Card.Title title={medProfile[0].name} />
           <Card.Content>
-            {/* <Title> {drug.name} </Title> */}
             <Paragraph>
               Dosage: {medProfile[0].dosage}
             </Paragraph>
