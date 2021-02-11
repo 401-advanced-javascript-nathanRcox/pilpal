@@ -64,7 +64,7 @@
 ### Domain Modeling
 
 ![UML](assets/uml.png)
-![React Components and Actions](assets/components.png)
+![React Components and Reducers](assets/components.png)
 
 ### Database modeling
 

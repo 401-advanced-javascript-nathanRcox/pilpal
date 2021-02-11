@@ -39,7 +39,7 @@ function History(props) {
   }, [])
 
   return (
-    <>
+    <ScrollView>
       { displayMedProfile === true ?
         <Card style={styles.surface}>
           <Card.Title title={medProfile[0].name} />
@@ -105,7 +105,8 @@ function History(props) {
             ))
             : <Text>''</Text>
       }
-    </>
+      <Text style={styles.spacer}></Text>
+    </ScrollView>
   );
 }
 
@@ -118,6 +119,9 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(History);
 
 const styles = StyleSheet.create({
+  spacer: {
+    height: 100
+  },
   surface: {
     margin: 8,
     // height: 100,

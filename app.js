@@ -4,7 +4,6 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import store from './src/store'
 import Header from './src/components/header';
 import Main from './src/components/main'
-// import Footer from './src/components/footer';
 
 export default function App() {
   return (
@@ -12,7 +11,6 @@ export default function App() {
       <PaperProvider>
         <Header />
         <Main />
-        {/* <Footer /> */}
       </PaperProvider>
     </Provider >
   );
