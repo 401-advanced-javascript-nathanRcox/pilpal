@@ -128,7 +128,7 @@ function TakeMedication(props) {
         Pick Time: {time}
       </Button>
 
-      <TextInput
+      {/* <TextInput
         label="Date"
         value={date}
         pointerEvents="none"
@@ -144,7 +144,7 @@ function TakeMedication(props) {
         pointerEvents="none"
         onPress={() => setVisibleTime(true)}
         onChangeText={time => setTime(time)}
-      />
+      /> */}
 
       <TextInput
         label="Notes"
