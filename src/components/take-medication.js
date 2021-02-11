@@ -10,8 +10,6 @@ import { changePage } from '../store/page-reducer';
 const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 
 function TakeMedication(props) {
-  // const [medicationId, setMedicationId] = useState('');
-  // const [userId, setUserId] = useState('');
   const [date, setDate] = useState(new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -31,6 +29,7 @@ function TakeMedication(props) {
           }, props.user.token);
         }
       });
+      console.log('PROPS AFTER SAVING = ', props);
       props.changePage('MedicationHistory');
     }
     catch (error) {
@@ -59,6 +58,7 @@ function TakeMedication(props) {
   }
   useEffect(() => {
     //setUserId(props.user.id);
+    console.log('PROPS ON LOADING TAKE MEDICATION PAGE', props);
     getMeds();
   }, []);
 
@@ -75,6 +75,7 @@ function TakeMedication(props) {
         value={note}
         onChangeText={note => setNote(note)}
       />
+
       <ScrollView>
         {props.medications.medications.map(medication => (
             <Surface key={medication._id}>
@@ -92,12 +93,12 @@ function TakeMedication(props) {
         <Text>{errorMessage}</Text>
         <Button onPress={() => takeMedication()}>Take Medication</Button>
       </ScrollView>
+
     </>
   )
 }
 
 const mapStateToProps = (state) => ({
-  history: state.medicationHistoryReducer,
   medications: state.medicationsReducer,
   medicationHistory: state.medicationHistoryReducer,
   user: state.userReducer,

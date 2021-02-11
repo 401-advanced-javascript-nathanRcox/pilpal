@@ -36,9 +36,9 @@ function Medication(props) {
   }
 
   const [visible, setVisible] = React.useState(false);
-    
-      const showModal = () => setVisible(true);
-      const hideModal = () => setVisible(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
 
   return (
     <>
@@ -72,9 +72,9 @@ function Medication(props) {
       <Button onPress={() => {
         showModal()
         newMedication()
-        }}>Add a Medication</Button>
+      }}>Add a Medication</Button>
       <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
-      
+
     </>
   )
 }
