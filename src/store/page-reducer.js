@@ -1,7 +1,7 @@
 
 //category reducer
 let initialState = {
-  page: 'SignIn',
+  page: 'Sign In',
   navigationStack: []
 }
 

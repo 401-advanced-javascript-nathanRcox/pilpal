@@ -17,24 +17,24 @@ function Header(props) {
 
   const signOut = () => {
     props.invalidateToken();
-    props.changePage('SignIn');
+    props.changePage('Sign In');
   }
   return (
 
     <View>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => { props.back(props.page) }} />
-        <Appbar.Content title="PilPal" />
+        <Appbar.Content title={props.page.page} />
         <Menu
           visible={visible}
           onDismiss={closeMenu}
-          anchor={< Appbar.Action icon={MORE_ICON} onPress={openMenu} 
+          anchor={< Appbar.Action icon={MORE_ICON} onPress={openMenu}
           />}>
-          <Menu.Item onPress={() => { props.changePage('AddMedication'), closeMenu() }} title="Add Medication" />
+          <Menu.Item onPress={() => { props.changePage('Add Medication'), closeMenu() }} title="Add Medication" />
           <Divider />
-          <Menu.Item onPress={() => { props.changePage('TakeMedication'), closeMenu() }} title="Take Medication" />
+          <Menu.Item onPress={() => { props.changePage('Take Medication'), closeMenu() }} title="Take Medication" />
           <Divider />
-          <Menu.Item onPress={() => { props.changePage('MedicationHistory'), closeMenu() }} title="Medication History" />
+          <Menu.Item onPress={() => { props.changePage('Medication History'), closeMenu() }} title="Medication History" />
           <Divider />
           <Menu.Item onPress={() => { signOut(), closeMenu() }} title="Sign Out" />
         </Menu>

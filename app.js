@@ -12,7 +12,7 @@ export default function App() {
       <PaperProvider>
         <Header />
         <Main />
-        <Footer />
+        {/* <Footer /> */}
       </PaperProvider>
     </Provider >
   );

@@ -5,25 +5,24 @@ import AddMedication from './add-medication';
 import TakeMedication from './take-medication';
 import MedicationHistory from './history';
 import { connect } from 'react-redux';
-import { changePage } from '../store/page-reducer';
 import { View } from 'react-native';
 
-const mapDispatchToProps = { changePage };
+const mapDispatchToProps = {};
 
 function Main(props) {
 
   return (
     <View>
-      {props.page.page === 'SignIn' ? <SignIn />
+      {props.page.page === 'Sign In' ? <SignIn />
         :
-        props.page.page === 'SignUp' ? <SignUp />
+        props.page.page === 'Sign Up' ? <SignUp />
           :
-          props.page.page === 'AddMedication' && props.user.token ? <AddMedication />
+          props.page.page === 'Add Medication' && props.user.token ? <AddMedication />
             :
-            props.page.page === 'TakeMedication' && props.user.token ? <TakeMedication />
-            :
-            props.page.page === 'MedicationHistory' && props.user.token ? <MedicationHistory />
-              : null
+            props.page.page === 'Take Medication' && props.user.token ? <TakeMedication />
+              :
+              props.page.page === 'Medication History' && props.user.token ? <MedicationHistory />
+                : null
       }
     </View>
   );

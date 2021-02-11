@@ -28,7 +28,7 @@ function SignUp(props) {
         email
       });
       // console.log('STATE AFTER SIGN UP', props.user);
-      props.changePage('AddMedication');
+      props.changePage('Add Medication');
     }
     catch (error) {
       setErrorMessage(error.message);

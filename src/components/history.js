@@ -54,7 +54,7 @@ function History(props) {
                 Frequency: {medProfile[0].frequency}
               </Paragraph>
               <Paragraph>
-                Time of Day: {medProfile[0].datetime}
+                Time of Day: {medProfile[0].time_of_day}
               </Paragraph>
               <Paragraph>
                 Notes: {medProfile[0].notes}
@@ -62,8 +62,10 @@ function History(props) {
             </Card.Content>
             <Card.Actions>
               <Button>Edit</Button>
-              <Button onPress={() => { setDisplayAllHistory(true), setDisplayMedProfile(false), 
-              setDisplayOneMedHistory(false)} }>Back to History</Button>
+              <Button onPress={() => {
+                setDisplayAllHistory(true), setDisplayMedProfile(false),
+                  setDisplayOneMedHistory(false)
+              }}>Back to History</Button>
             </Card.Actions>
           </Card>
           : displayAllHistory === true ?
@@ -73,7 +75,7 @@ function History(props) {
                 <Card.Content>
                   {/* <Title> {drug.name} </Title> */}
                   <Paragraph>
-                    Date & Time: {drug.datetime}
+                    Date & Time: {drug.date} {drug.time_of_day}
                   </Paragraph>
                   <Paragraph>
                     Notes: {drug.notes}
@@ -92,7 +94,7 @@ function History(props) {
                   <Card.Content>
                     {/* <Title> {drug.name} </Title> */}
                     <Paragraph>
-                      Date & Time: {drug.datetime}
+                      Date & Time: {drug.date} {drug.time_of_day}
                     </Paragraph>
                     <Paragraph>
                       Notes: {drug.notes}
