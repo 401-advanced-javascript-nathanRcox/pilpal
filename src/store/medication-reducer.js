@@ -59,7 +59,7 @@ export const addMedication = (payload) => dispatch => {
 
 export const postMed = payload => {
   return {
-    type: 'ADD',
+    type: 'ADD-MED',
     payload: payload,
   }
 }
