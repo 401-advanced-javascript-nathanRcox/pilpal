@@ -19,11 +19,18 @@ function Header(props) {
     props.invalidateToken();
     props.changePage('Sign In');
   }
+
+  const back = () => {
+    //change props
+    props.back();
+    //props.changePage(props.page.page);
+  }
+
   return (
 
     <View>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => { props.back(props.page) }} />
+        <Appbar.BackAction disabled={props.page.navigationStack.length <= 1} onPress={() => { back() }} />
         <Appbar.Content title={props.page.page} />
         <Menu
           visible={visible}

@@ -26,7 +26,7 @@ function TakeMedication(props) {
   const onChange = React.useCallback(({ date }) => {
     setVisible(false)
     setDate(date.toLocaleDateString());
-    console.log('DATE = ', date.toLocaleDateString())
+    // console.log('DATE = ', date.toLocaleDateString())
   }, [])
 
   const selectDate = new Date()
@@ -36,8 +36,8 @@ function TakeMedication(props) {
     try {
       props.medications.medications.forEach((medication) => {
         if (medication.checked) {
-          console.log({ medication });
-          console.log({ token: props.user.token })
+          // console.log({ medication });
+          // console.log({ token: props.user.token })
           props.addMedicationHistory({
             user_id: props.user.id,
             medication_id: medication._id,

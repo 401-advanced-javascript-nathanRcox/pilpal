@@ -26,11 +26,11 @@ const getMedHistory = payload => {
 
 export const addMedicationHistory = (newMedicationHistory, token) => dispatch => {
   axios.defaults.headers.common = { 'Authorization': `bearer ${token}` }
-  console.log(newMedicationHistory, token);
+  // console.log(newMedicationHistory, token);
   return axios.post(REACT_NATIVE_API + '/api/v2/medication-history',
     newMedicationHistory)
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       dispatch(addMedHistory(response.data));
     });
 }
