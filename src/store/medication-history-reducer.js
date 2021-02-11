@@ -12,7 +12,12 @@ export const getAllMedHistory = (payload) => dispatch => {
   return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.id}`)
 
     .then(response => {
-      dispatch(getMedHistory(response.data));
+      response.data.forEach((item) => {
+        let dateString = item.date + ' ' + item.time_of_day;
+        item.dateTime = new Date(dateString);
+      });
+      const sortedMedHistory = response.data.slice().sort((a, b) => b.dateTime - a.dateTime)
+      dispatch(getMedHistory(sortedMedHistory));
     })
     .catch(error => console.error('get all failed', error))
 }

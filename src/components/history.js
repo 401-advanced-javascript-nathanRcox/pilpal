@@ -40,7 +40,6 @@ function History(props) {
 
   return (
     <ScrollView>
-      <Button>Sort by Medication</Button>
       <>
         { displayMedProfile === true ?
           <Card style={styles.surface}>

@@ -23,7 +23,6 @@ function Header(props) {
   const back = () => {
     //change props
     props.back();
-    //props.changePage(props.page.page);
   }
 
   return (
