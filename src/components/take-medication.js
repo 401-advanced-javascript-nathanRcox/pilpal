@@ -18,14 +18,15 @@ function TakeMedication(props) {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [visible, setVisible] = React.useState(true)
+  const [visible, setVisible] = React.useState(false)
   const onDismiss = React.useCallback(() => {
     setVisible(false)
   }, [setVisible])
 
   const onChange = React.useCallback(({ date }) => {
     setVisible(false)
-    console.log({ date })
+    setDate(date.toLocaleDateString());
+    console.log('DATE = ', date.toLocaleDateString())
   }, [])
 
   const selectDate = new Date()
@@ -46,7 +47,7 @@ function TakeMedication(props) {
           }, props.user.token);
         }
       });
-      console.log('PROPS AFTER SAVING = ', props);
+      // console.log('PROPS AFTER SAVING = ', props);
       props.changePage('MedicationHistory');
     }
     catch (error) {
@@ -75,7 +76,7 @@ function TakeMedication(props) {
   }
   useEffect(() => {
     //setUserId(props.user.id);
-    console.log('PROPS ON LOADING TAKE MEDICATION PAGE', props);
+    // console.log('PROPS ON LOADING TAKE MEDICATION PAGE', props);
     getMeds();
   }, []);
 
@@ -93,11 +94,12 @@ function TakeMedication(props) {
         locale={'en'} // optional, default is automically detected by your system
       />
       <Button onPress={() => setVisible(true)}>
-        Select A Date
+        Date: {date}
       </Button>
       <TextInput
         label="Date"
         value={date}
+        onPress={() => setVisible(true)}
         onChangeText={date => setDate(date)}
       />
 
