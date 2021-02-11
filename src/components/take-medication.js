@@ -6,7 +6,7 @@ import { Surface, TextInput, Button, Text, Checkbox } from 'react-native-paper';
 import { StyleSheet, ScrollView } from 'react-native';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
-import { DatePickerModal } from 'react-native-paper-dates'
+import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
 // import { SelectDate } from './date-time-picker';
@@ -18,43 +18,59 @@ function TakeMedication(props) {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [visible, setVisible] = React.useState(false)
-  const onDismiss = React.useCallback(() => {
-    setVisible(false)
-  }, [setVisible])
+  const [visibleDate, setVisibleDate] = React.useState(false)
+  const [visibleTime, setVisibleTime] = React.useState(false)
 
-  const onChange = React.useCallback(({ date }) => {
-    setVisible(false)
+  const onDismissDate = React.useCallback(() => {
+    setVisibleDate(false)
+  }, [setVisibleDate])
+
+  const onChangeDate = React.useCallback(({ date }) => {
+    setVisibleDate(false)
     setDate(date.toLocaleDateString());
     console.log('DATE = ', date.toLocaleDateString())
   }, [])
 
-  const selectDate = new Date()
+  const onDismissTime = React.useCallback(() => {
+    setVisibleTime(false)
+  }, [setVisibleTime])
+
+  const onConfirmTime = React.useCallback(
+    ({ hours, minutes }) => {
+      setVisibleTime(false);
+      setTime(`${hours}:${minutes}`)
+      console.log({ hours, minutes });
+    },
+    [setVisibleTime]
+  );
+
+  const selectDate = new Date();
 
 
   const takeMedication = () => {
     try {
       props.medications.medications.forEach((medication) => {
         if (medication.checked) {
-          console.log({ medication });
-          console.log({ token: props.user.token })
+          // console.log({ medication });
+          // console.log({ token: props.user.token })
           props.addMedicationHistory({
             user_id: props.user.id,
             medication_id: medication._id,
             name: medication.name,
-            datetime: date,
+            date: date,
+            time_of_day: time,
             notes: note
           }, props.user.token);
         }
       });
       // console.log('PROPS AFTER SAVING = ', props);
-      props.changePage('MedicationHistory');
+      props.changePage('Medication History');
     }
     catch (error) {
       console.log('error taking medication: ', error, 'invalidating token');
       setErrorMessage(error);
       props.invalidateToken();
-      props.changePage('SignIn');
+      props.changePage('Sign In');
     }
   }
 
@@ -71,7 +87,7 @@ function TakeMedication(props) {
     catch (error) {
       console.log('error getting medications: ', error, 'invalidating token');
       setErrorMessage(error);
-      props.invalidateToken();
+      // props.invalidateToken();
     }
   }
   useEffect(() => {
@@ -84,38 +100,61 @@ function TakeMedication(props) {
     <>
       <DatePickerModal
         mode="single"
-        visible={visible}
-        onDismiss={onDismiss}
+        visible={visibleDate}
+        onDismiss={onDismissDate}
         date={selectDate}
-        onConfirm={onChange}
+        onConfirm={onChangeDate}
         //saveLabel="Save" // optional
         label="Select date" // optional
         animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button onPress={() => setVisible(true)}>
-        Date: {date}
+      <Button onPress={() => setVisibleDate(true)}>
+        Pick Date: {date}
       </Button>
+      <TimePickerModal
+        visible={visibleTime}
+        onDismiss={onDismissTime}
+        onConfirm={onConfirmTime}
+        hours={selectDate.getHours()} // default: current hours
+        minutes={selectDate.getMinutes()} // default: current minutes
+        label="Select time" // optional, default 'Select time'
+        cancelLabel="Cancel" // optional, default: 'Cancel'
+        confirmLabel="Ok" // optional, default: 'Ok'
+        animationType="fade" // optional, default is 'none'
+        locale={'en'} // optional, default is automically detected by your system
+      />
+      <Button onPress={() => setVisibleTime(true)}>
+        Pick Time: {time}
+      </Button>
+
       <TextInput
         label="Date"
         value={date}
-        onPress={() => setVisible(true)}
+        pointerEvents="none"
+        style={styles.input}
+        onPress={() => setVisibleDate(true)}
         onChangeText={date => setDate(date)}
       />
 
       <TextInput
         label="Time"
+        style={styles.input}
         value={time}
+        pointerEvents="none"
+        onPress={() => setVisibleTime(true)}
         onChangeText={time => setTime(time)}
       />
 
       <TextInput
         label="Notes"
+        style={styles.input}
         value={note}
         onChangeText={note => setNote(note)}
       />
 
       <ScrollView>
+        <Text style={styles.header}>Medications</Text>
         {props.medications.medications.map(medication => (
           <Surface key={medication._id}>
             < Checkbox.Item
@@ -123,20 +162,48 @@ function TakeMedication(props) {
 
               status={medication.checked ? "checked" : "unchecked"}
               label={medication.name}
+              style={styles.checkbox}
               onPress={() => {
                 toggleSelection(medication)
               }} />
           </Surface>
         )
         )}
-        <Text>{errorMessage}</Text>
-        <Button onPress={() => takeMedication()}>Take Medication</Button>
+        <Text style={styles.error}>{errorMessage}</Text>
+        <Button style={styles.button} onPress={() => takeMedication()}>Save</Button>
       </ScrollView>
 
     </>
   )
 }
 
+const styles = StyleSheet.create({
+  header: {
+    marginTop: 5,
+    paddingVertical: 5,
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  // button: {
+  //   backgroundColor: "#000",
+  //   borderWidth: 4,
+  //   borderColor: "#20232a",
+  //   borderRadius: 6,
+  //   width: 200
+  // },
+  checkbox: {
+
+  },
+  error: {
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    color: "#8B0000",
+    fontSize: 18
+  },
+  input: {
+  }
+});
 const mapStateToProps = (state) => ({
   medications: state.medicationsReducer,
   medicationHistory: state.medicationHistoryReducer,

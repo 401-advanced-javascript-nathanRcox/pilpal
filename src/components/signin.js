@@ -4,7 +4,6 @@ import { StyleSheet, Link } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn, retrieveToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const mapDispatchToProps = { signIn, changePage, retrieveToken };
 
@@ -22,7 +21,7 @@ function SignIn(props) {
     // console.log('props = ', props)
     // console.log('retrieved { token, user id } = ', props.user.token, ',  userID: ', props.user.id);
     if (props.user.token && props.user.id)
-      props.changePage('TakeMedication');
+      props.changePage('Take Medication');
     // else
     //   AsyncStorage.clear();
   }
@@ -39,7 +38,7 @@ function SignIn(props) {
         password
       });
       // console.log('STATE AFTER SIGN IN', props.user);
-      props.changePage('TakeMedication');
+      props.changePage('Take Medication');
       // console.log(props.user)
     }
     catch (error) {
@@ -64,7 +63,7 @@ function SignIn(props) {
       <Button mode="contained" onPress={() => go()}>
         Sign In
       </Button>
-      <Button onPress={() => props.changePage('SignUp')}>SignUp</Button>
+      <Button onPress={() => props.changePage('Sign Up')}>SignUp</Button>
     </>
   )
 }
