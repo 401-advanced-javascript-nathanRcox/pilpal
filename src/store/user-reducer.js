@@ -64,11 +64,14 @@ export const signUp = (newUser) => dispatch => {
   })
     .then(result => {
       let user = result.data.user;
-      // console.log({ user });
+      console.log({ user });
       //save the auth token in the device's async storage (like a cookie)
       storeToken(user.token, user.id);
       dispatch(getSignUp(user));
     })
+    .catch(error => {
+      console.log(error, 'unable to create a new account at this time')
+    });
 }
 
 const getSignUp = (newUser) => {
