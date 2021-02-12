@@ -80,21 +80,21 @@ function Medication(props) {
       />
       <Text>{errorMessage}</Text>
 
-      <View style={styles.buttonRow}>
-        <View style={styles.button}>
-          <Button onPress={() => {
-            // showModal()
-            newMedication()
-          }}>Save</Button>
-        </View>
+      {/* <View style={styles.buttonRow}>
+        <View style={styles.button}> */}
+      <Button onPress={() => {
+        showModal()
+        newMedication()
+      }}>Save</Button>
+      {/* </View>
         <View style={styles.button}>
           <Button onPress={() => {
             // showModal()
             props.changePage('Take Medication')
           }}>Done</Button>
         </View>
-      </View>
-      {/* <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} /> */}
+      </View> */}
+      <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
       <Text style={styles.error}>{errorMessage}</Text>
       <Text style={styles.spacer}></Text>
     </ScrollView>

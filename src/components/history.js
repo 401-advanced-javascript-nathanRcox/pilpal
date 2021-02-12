@@ -26,7 +26,6 @@ function History(props) {
   }
 
   const getAllHistoryOneMed = async (drug) => {
-
     let getHistoryOneMed = await props.history.medication_history.filter(meds => meds.medication_id === drug);
     await setHistoryOfOne(getHistoryOneMed);
     setDisplayAllHistory(false);
@@ -40,7 +39,6 @@ function History(props) {
       await props.getAllMedHistory(props.user);
     }
     fetchData();
-
   }, []);
 
   return (
