@@ -65,9 +65,9 @@ function History(props) {
         Object.entries(props.history.groupedByDate).map(([key, value]) => (
 
           <Card style={styles.surface} key={key}>
-            <Card.Title titleStyle={styles.title} title={key} />
+            <Card.Title titleStyle={styles.title} key={key + 'title'} title={key} />
             {value.map(item => (
-              <Card.Content><Paragraph>
+              <Card.Content key={item._id}><Paragraph key={item._id + 'par'}>
                 {item.time_of_day}: {item.name}
               </Paragraph></Card.Content>
             ))}
