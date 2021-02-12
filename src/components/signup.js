@@ -16,7 +16,6 @@ function SignUp(props) {
 
   useEffect(() => {
     //check if user is signed in. If yes, skip the authentication requirement
-    // console.log('User = ', props.user);
     //else do nothing.
   }, []);
 
@@ -28,10 +27,15 @@ function SignUp(props) {
         email
       });
       // console.log('STATE AFTER SIGN UP', props.user);
-      props.changePage('Add Medication');
+      // if (props.user.token) {
+        props.changePage('Add Medication');
+      // } else {
+      //   setErrorMessage('This username already exists.');
+      // }
     }
     catch (error) {
-      setErrorMessage(error.message);
+      console.log(error.message);
+      setErrorMessage('This username already exists.');
     }
   }
   return (

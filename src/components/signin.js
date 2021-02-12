@@ -42,7 +42,8 @@ function SignIn(props) {
       // console.log(props.user)
     }
     catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage('Incorrect username or password, please try again.');
+      console.log(errorMessage);
     }
   }
   return (
@@ -60,6 +61,7 @@ function SignIn(props) {
         value={password}
         onChangeText={password => setPassword(password)} />
       <Text>{errorMessage}</Text>
+      {/* find this error message and update it */}
       <Button mode="contained" onPress={() => go()}>
         Sign In
       </Button>

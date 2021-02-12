@@ -54,9 +54,9 @@ export const invalidateToken = () => {
   }
 }
 
-export const signUp = (newUser) => dispatch => {
+export const signUp = (newUser) => async dispatch => {
   // console.log('hello-world')
-  axios.post(REACT_NATIVE_API + '/signup', {
+  await axios.post(REACT_NATIVE_API + '/signup', {
     username: newUser.username,
     password: newUser.password,
     email: newUser.email,
@@ -64,11 +64,15 @@ export const signUp = (newUser) => dispatch => {
   })
     .then(result => {
       let user = result.data.user;
-      // console.log({ user });
+      console.log({ user });
       //save the auth token in the device's async storage (like a cookie)
       storeToken(user.token, user.id);
       dispatch(getSignUp(user));
     })
+    // .catch(error => {
+    //   console.log(error, 'This username already exists, please choose another.')
+    //   throw error;
+    // });
 }
 
 const getSignUp = (newUser) => {
