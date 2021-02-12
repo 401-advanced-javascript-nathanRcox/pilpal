@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { TextInput, Button, Text, Card } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
@@ -44,11 +44,10 @@ function Medication(props) {
 
   return (
     <ScrollView>
-      <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
-      <Text style={styles.header}>Medicine Cabinet</Text>
+      <Text style={styles.header}>My Medications</Text>
       <Card style={styles.card}>
         {props.medications.medications.map(medication => (
-          <Card.Title key={medication._id} title={medication.name} />
+          <Card.Title key={medication._id} title={`${medication.name} - ${medication.dosage}`} />
         )
         )}
       </Card>
@@ -81,11 +80,21 @@ function Medication(props) {
       />
       <Text>{errorMessage}</Text>
 
-      <Button onPress={() => {
-        showModal()
-        newMedication()
-      }}>SAVE</Button>
-
+      <View style={styles.buttonRow}>
+        <View style={styles.button}>
+          <Button onPress={() => {
+            // showModal()
+            newMedication()
+          }}>Save</Button>
+        </View>
+        <View style={styles.button}>
+          <Button onPress={() => {
+            // showModal()
+            props.changePage('Take Medication')
+          }}>Done</Button>
+        </View>
+      </View>
+      {/* <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} /> */}
       <Text style={styles.error}>{errorMessage}</Text>
       <Text style={styles.spacer}></Text>
     </ScrollView>
@@ -102,6 +111,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  buttonRow: {
+    marginVertical: 10,
+    flexDirection: 'row'
+  },
+  button: {
+    width: "50%"
   },
   card: {
     elevation: 0

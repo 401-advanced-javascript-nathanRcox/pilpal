@@ -36,7 +36,7 @@ function Header(props) {
           onDismiss={closeMenu}
           anchor={< Appbar.Action color={'white'} icon={MORE_ICON} onPress={openMenu}
           />}>
-          <Menu.Item onPress={() => { props.changePage('Add Medication'), closeMenu() }} title="Add Medication" />
+          <Menu.Item onPress={() => { props.changePage('Medicine Cabinet'), closeMenu() }} title="Medicine Cabinet" />
           <Divider />
           <Menu.Item onPress={() => { props.changePage('Take Medication'), closeMenu() }} title="Take Medication" />
           <Divider />

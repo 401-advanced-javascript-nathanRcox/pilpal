@@ -17,7 +17,7 @@ function Main(props) {
         :
         props.page.page === 'Sign Up' ? <SignUp />
           :
-          props.page.page === 'Add Medication' && props.user.token ? <AddMedication />
+          props.page.page === 'Medicine Cabinet' && props.user.token ? <AddMedication />
             :
             props.page.page === 'Take Medication' && props.user.token ? <TakeMedication />
               :

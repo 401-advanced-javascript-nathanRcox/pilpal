@@ -28,7 +28,7 @@ function SignUp(props) {
       });
       // console.log('STATE AFTER SIGN UP', props.user);
       // if (props.user.token) {
-        props.changePage('Add Medication');
+      props.changePage('Medicine Cabinet');
       // } else {
       //   setErrorMessage('This username already exists.');
       // }
