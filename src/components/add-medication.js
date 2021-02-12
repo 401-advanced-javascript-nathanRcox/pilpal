@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addMedication } from '../store/medication-reducer';
+import { ScrollView } from 'react-native';
 import { TextInput, Button, Text, Card } from 'react-native-paper';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
@@ -42,7 +43,7 @@ function Medication(props) {
   const hideModal = () => setVisible(false);
 
   return (
-    <>
+    <ScrollView>
       <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
       <Text style={styles.header}>Medicine Cabinet</Text>
       <Card style={styles.card}>
@@ -86,11 +87,15 @@ function Medication(props) {
       }}>SAVE</Button>
 
       <Text style={styles.error}>{errorMessage}</Text>
-    </>
+      <Text style={styles.spacer}></Text>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
+  spacer: {
+    height: 100
+  },
   header: {
     marginTop: 5,
     paddingVertical: 5,
