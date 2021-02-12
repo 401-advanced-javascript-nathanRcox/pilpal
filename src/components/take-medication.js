@@ -9,7 +9,6 @@ import { changePage } from '../store/page-reducer';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
-// import { SelectDate } from './date-time-picker';
 
 const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 

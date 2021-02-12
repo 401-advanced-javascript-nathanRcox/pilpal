@@ -17,6 +17,8 @@ function Header(props) {
 
   const signOut = () => {
     props.invalidateToken();
+    //todo: clear props
+
     props.changePage('Sign In');
   }
 
