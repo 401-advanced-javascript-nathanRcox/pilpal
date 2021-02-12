@@ -42,7 +42,7 @@ function SignIn(props) {
       // console.log(props.user)
     }
     catch (error) {
-      await setErrorMessage('Incorrect username or password, please try again.');
+      setErrorMessage('Incorrect username or password, please try again.');
       console.log(errorMessage);
     }
   }
