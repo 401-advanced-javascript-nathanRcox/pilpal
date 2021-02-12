@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button, Text, Card, Paragraph } from 'react-native-paper';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { getAllMedHistory } from '../store/medication-history-reducer';
 
 const mapDispatchToProps = { getAllMedHistory };
@@ -45,23 +45,27 @@ function History(props) {
 
   return (
     <ScrollView>
-      <Button onPress={() => {
-        setDisplayAllHistory(true);
-        setDisplayMedProfile(false);
-        setdisplayAllGroupedByDate(false);
-        setDisplayOneMedHistory(false);
-      }}>Display All</Button>
-      <Button onPress={() => {
-        setDisplayAllHistory(false);
-        setDisplayMedProfile(false);
-        setdisplayAllGroupedByDate(true);
-        setDisplayOneMedHistory(false);
-      }}>Display By Date</Button>
+      <View style={styles.buttonRow}>
+        <View style={styles.button}>
+          <Button disabled={displayAllHistory} onPress={() => {
+            setDisplayAllHistory(true);
+            setDisplayMedProfile(false);
+            setdisplayAllGroupedByDate(false);
+            setDisplayOneMedHistory(false);
+          }}>Display All</Button></View>
+        <View style={styles.button}>
+          <Button disabled={displayAllGroupedByDate} onPress={() => {
+            setDisplayAllHistory(false);
+            setDisplayMedProfile(false);
+            setdisplayAllGroupedByDate(true);
+            setDisplayOneMedHistory(false);
+          }}>Display By Date</Button></View>
+      </View>
       {displayAllGroupedByDate ?
         Object.entries(props.history.groupedByDate).map(([key, value]) => (
 
           <Card style={styles.surface}>
-            <Card.Title title={key} />
+            <Card.Title titleStyle={styles.title} title={key} />
             {value.map(item => (
               <Card.Content><Paragraph>
                 {item.time_of_day}: {item.name}
@@ -152,11 +156,16 @@ const styles = StyleSheet.create({
     height: 100
   },
   surface: {
-    margin: 8,
-    // height: 100,
-    // width: 300,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // elevation: 4,
+    margin: 8
   },
+  title: {
+    color: "#6300ee"
+  },
+  button: {
+    width: "50%"
+  },
+  buttonRow: {
+    marginVertical: 10,
+    flexDirection: 'row'
+  }
 });
