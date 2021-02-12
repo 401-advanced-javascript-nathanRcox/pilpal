@@ -43,6 +43,16 @@ function Medication(props) {
 
   return (
     <>
+      <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
+      <Text style={styles.header}>Medicine Cabinet</Text>
+      <Card style={styles.card}>
+        {props.medications.medications.map(medication => (
+          <Card.Title key={medication._id} title={medication.name} />
+        )
+        )}
+      </Card>
+      <Text style={styles.header}>Add Medication</Text>
+
       <TextInput
         label="Name of Medication"
         value={medName}
@@ -73,16 +83,8 @@ function Medication(props) {
       <Button onPress={() => {
         showModal()
         newMedication()
-      }}>Add a Medication</Button>
-      <NavToggle visible={visible} hideModal={hideModal} changePage={props.changePage} />
-      <Text style={styles.header}>Medications</Text>
-      {props.medications.medications.map(medication => (
-        <Card style={styles.surface} key={medication._id}>
-          <Card.Title title={medication.name} />
-        </Card>
+      }}>SAVE</Button>
 
-      )
-      )}
       <Text style={styles.error}>{errorMessage}</Text>
     </>
   )
@@ -95,6 +97,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  card: {
+    elevation: 0
   }
 });
 const mapStateToProps = (state) => ({

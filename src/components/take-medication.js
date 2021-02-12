@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addMedicationHistory } from '../store/medication-history-reducer';
 import { getMedications, toggleChecked } from '../store/medication-reducer';
 import { Surface, TextInput, Button, Text, Checkbox } from 'react-native-paper';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
@@ -14,8 +14,10 @@ import 'intl/locale-data/jsonp/en'; // or any other locale you need
 const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 
 function TakeMedication(props) {
-  const [date, setDate] = useState(new Date().toLocaleDateString());
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const selectDate = new Date();
+
+  const [date, setDate] = useState(selectDate.toLocaleDateString());
+  const [time, setTime] = useState(selectDate.getHours() + ':' + selectDate.getMinutes());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [visibleDate, setVisibleDate] = React.useState(false)
@@ -23,36 +25,30 @@ function TakeMedication(props) {
 
   const onDismissDate = React.useCallback(() => {
     setVisibleDate(false)
-  }, [setVisibleDate])
+  }, [setVisibleDate]);
 
   const onChangeDate = React.useCallback(({ date }) => {
     setVisibleDate(false)
     setDate(date.toLocaleDateString());
-    console.log('DATE = ', date.toLocaleDateString())
-  }, [])
+  }, []);
 
   const onDismissTime = React.useCallback(() => {
     setVisibleTime(false)
-  }, [setVisibleTime])
+  }, [setVisibleTime]);
 
   const onConfirmTime = React.useCallback(
     ({ hours, minutes }) => {
       setVisibleTime(false);
       setTime(`${hours}:${minutes}`)
-      console.log({ hours, minutes });
+      // console.log({ hours, minutes });
     },
     [setVisibleTime]
   );
-
-  const selectDate = new Date();
-
 
   const takeMedication = () => {
     try {
       props.medications.medications.forEach((medication) => {
         if (medication.checked) {
-          // console.log({ medication });
-          // console.log({ token: props.user.token })
           props.addMedicationHistory({
             user_id: props.user.id,
             medication_id: medication._id,
@@ -63,7 +59,6 @@ function TakeMedication(props) {
           }, props.user.token);
         }
       });
-      // console.log('PROPS AFTER SAVING = ', props);
       props.changePage('Medication History');
     }
     catch (error) {
@@ -109,9 +104,6 @@ function TakeMedication(props) {
         animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button onPress={() => setVisibleDate(true)}>
-        Pick Date: {date}
-      </Button>
       <TimePickerModal
         visible={visibleTime}
         onDismiss={onDismissTime}
@@ -124,27 +116,18 @@ function TakeMedication(props) {
         animationType="fade" // optional, default is 'none'
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button onPress={() => setVisibleTime(true)}>
-        Pick Time: {time}
-      </Button>
-
-      {/* <TextInput
-        label="Date"
-        value={date}
-        pointerEvents="none"
-        style={styles.input}
-        onPress={() => setVisibleDate(true)}
-        onChangeText={date => setDate(date)}
-      />
-
-      <TextInput
-        label="Time"
-        style={styles.input}
-        value={time}
-        pointerEvents="none"
-        onPress={() => setVisibleTime(true)}
-        onChangeText={time => setTime(time)}
-      /> */}
+      <View style={styles.buttonRow}>
+        <View style={styles.button}>
+          <Button onPress={() => setVisibleDate(true)}>
+            Date: {date}
+          </Button>
+        </View>
+        <View style={styles.button}>
+          <Button onPress={() => setVisibleTime(true)}>
+            Time: {time}
+          </Button>
+        </View>
+      </View>
 
       <TextInput
         label="Notes"
@@ -158,8 +141,6 @@ function TakeMedication(props) {
         {props.medications.medications.map(medication => (
           <Surface key={medication._id}>
             < Checkbox.Item
-              // {console.log()}
-
               status={medication.checked ? "checked" : "unchecked"}
               label={medication.name}
               style={styles.checkbox}
@@ -185,23 +166,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  // button: {
-  //   backgroundColor: "#000",
-  //   borderWidth: 4,
-  //   borderColor: "#20232a",
-  //   borderRadius: 6,
-  //   width: 200
-  // },
-  checkbox: {
-
+  buttonRow: {
+    marginVertical: 10,
+    flexDirection: 'row'
+  },
+  button: {
+    width: "50%"
   },
   error: {
     paddingHorizontal: 15,
     paddingVertical: 5,
     color: "#8B0000",
     fontSize: 18
-  },
-  input: {
   }
 });
 const mapStateToProps = (state) => ({

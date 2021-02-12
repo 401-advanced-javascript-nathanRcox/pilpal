@@ -26,17 +26,17 @@ const pageReducer = (state = initialState, action) => {
     case 'CHANGEPAGE':
       if (payload === state.navigationStack[state.navigationStack.length - 1]) return state;
       let newNavigationStack = [...state.navigationStack, payload];
-      console.log('new navigation stack =', newNavigationStack);
+      // console.log('new navigation stack =', newNavigationStack);
       return { navigationStack: newNavigationStack, page: payload };
     case 'BACK':
       //todo: verify that this works
       console.log('going back to the last entry in ', state.navigationStack);
       //make a copy of the current navigation stack
       newNavigationStack = state.navigationStack.slice();
-      console.log({ newNavigationStack });
+      // console.log({ newNavigationStack });
       //remove the last item in the stack
       if (state.navigationStack.length > 1) newNavigationStack.pop();
-      console.log({ newNavigationStack });
+      // console.log({ newNavigationStack });
 
       return { page: newNavigationStack[newNavigationStack.length - 1], navigationStack: newNavigationStack }
     default:
