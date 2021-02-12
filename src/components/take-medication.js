@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addMedicationHistory } from '../store/medication-history-reducer';
 import { getMedications, toggleChecked } from '../store/medication-reducer';
 import { Surface, TextInput, Button, Text, Checkbox } from 'react-native-paper';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { invalidateToken } from '../store/user-reducer';
 import { changePage } from '../store/page-reducer';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
@@ -108,9 +108,6 @@ function TakeMedication(props) {
         animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button style={styles.pickerButton} onPress={() => setVisibleDate(true)}>
-        Pick Date: {date}
-      </Button>
       <TimePickerModal
         visible={visibleTime}
         onDismiss={onDismissTime}
@@ -123,9 +120,18 @@ function TakeMedication(props) {
         animationType="fade" // optional, default is 'none'
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button style={styles.pickerButton} onPress={() => setVisibleTime(true)}>
-        Pick Time: {time}
-      </Button>
+      <View style={styles.buttonRow}>
+        <View style={styles.button}>
+          <Button onPress={() => setVisibleDate(true)}>
+            Date: {date}
+          </Button>
+        </View>
+        <View style={styles.button}>
+          <Button onPress={() => setVisibleTime(true)}>
+            Time: {time}
+          </Button>
+        </View>
+      </View>
 
       {/* <TextInput
         label="Date"
@@ -184,26 +190,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  // button: {
-  //   backgroundColor: "#000",
-  //   borderWidth: 4,
-  //   borderColor: "#20232a",
-  //   borderRadius: 6,
-  //   width: 200
-  // },
-  checkbox: {
-
+  buttonRow: {
+    marginVertical: 10,
+    flexDirection: 'row'
+  },
+  button: {
+    width: "50%"
   },
   error: {
     paddingHorizontal: 15,
     paddingVertical: 5,
     color: "#8B0000",
     fontSize: 18
-  },
-  input: {
-  },
-  pickerButton: {
-    textAlign: "left"
   }
 });
 const mapStateToProps = (state) => ({
