@@ -64,7 +64,7 @@ function History(props) {
       {displayAllGroupedByDate ?
         Object.entries(props.history.groupedByDate).map(([key, value]) => (
 
-          <Card style={styles.surface}>
+          <Card style={styles.surface} key={key}>
             <Card.Title titleStyle={styles.title} title={key} />
             {value.map(item => (
               <Card.Content><Paragraph>
