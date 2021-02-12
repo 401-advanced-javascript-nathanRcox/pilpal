@@ -2,7 +2,8 @@ import { REACT_NATIVE_API } from '@env';
 import axios from 'axios';
 
 let initialState = {
-  medication_history: []
+  medication_history: [],
+  groupedByDate: {}
 }
 
 export const getAllMedHistory = (payload) => dispatch => {
@@ -16,8 +17,9 @@ export const getAllMedHistory = (payload) => dispatch => {
         let dateString = item.date + ' ' + item.time_of_day;
         item.dateTime = new Date(dateString);
       });
-      const sortedMedHistory = response.data.slice().sort((a, b) => b.dateTime - a.dateTime)
-      dispatch(getMedHistory(sortedMedHistory));
+      const sortedMedHistory = response.data.sort((a, b) => b.dateTime - a.dateTime)
+      let groupedData = getGroupedByDate(sortedMedHistory);
+      dispatch(getMedHistory(groupedData));
     })
     .catch(error => console.error('get all failed', error))
 }
@@ -27,6 +29,22 @@ const getMedHistory = payload => {
     type: 'GET-ALL',
     payload: payload
   }
+}
+
+const getGroupedByDate = (medicationHistory) => {
+  console.log(medicationHistory);
+  let groupedByDate = {}
+  medicationHistory.forEach(medication => {
+    if (groupedByDate[medication.date]) {
+      groupedByDate[medication.date].push(medication)
+    } else {
+      //this key doesn't exist yet. create it
+      groupedByDate[medication.date] = [];
+      groupedByDate[medication.date].push(medication)
+    }
+  });
+  console.log('MEDICATION GROUPED BY DATE', groupedByDate);
+  return { medication_history: medicationHistory, groupedByDate };
 }
 
 export const addMedicationHistory = (newMedicationHistory, token) => dispatch => {
@@ -51,7 +69,7 @@ const medicationHistoryReducer = (state = initialState, action) => {
   let { type, payload } = action;
   switch (type) {
     case 'GET-ALL':
-      return { medication_history: payload };
+      return payload;
     case 'ADD-MEDHISTORY':
       return { medication_history: [...state.medication_history, payload] }
     default:

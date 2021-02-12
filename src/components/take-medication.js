@@ -14,8 +14,10 @@ import 'intl/locale-data/jsonp/en'; // or any other locale you need
 const mapDispatchToProps = { invalidateToken, getMedications, changePage, toggleChecked, addMedicationHistory };
 
 function TakeMedication(props) {
-  const [date, setDate] = useState(new Date().toLocaleDateString());
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const selectDate = new Date();
+
+  const [date, setDate] = useState(selectDate.toLocaleDateString());
+  const [time, setTime] = useState(selectDate.getHours() + ':' + selectDate.getMinutes());
   const [note, setNote] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [visibleDate, setVisibleDate] = React.useState(false)
@@ -28,7 +30,7 @@ function TakeMedication(props) {
   const onChangeDate = React.useCallback(({ date }) => {
     setVisibleDate(false)
     setDate(date.toLocaleDateString());
-    console.log('DATE = ', date.toLocaleDateString())
+    // console.log('DATE = ', date.toLocaleDateString())
   }, [])
 
   const onDismissTime = React.useCallback(() => {
@@ -39,13 +41,10 @@ function TakeMedication(props) {
     ({ hours, minutes }) => {
       setVisibleTime(false);
       setTime(`${hours}:${minutes}`)
-      console.log({ hours, minutes });
+      // console.log({ hours, minutes });
     },
     [setVisibleTime]
   );
-
-  const selectDate = new Date();
-
 
   const takeMedication = () => {
     try {
@@ -109,7 +108,7 @@ function TakeMedication(props) {
         animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button onPress={() => setVisibleDate(true)}>
+      <Button style={styles.pickerButton} onPress={() => setVisibleDate(true)}>
         Pick Date: {date}
       </Button>
       <TimePickerModal
@@ -124,7 +123,7 @@ function TakeMedication(props) {
         animationType="fade" // optional, default is 'none'
         locale={'en'} // optional, default is automically detected by your system
       />
-      <Button onPress={() => setVisibleTime(true)}>
+      <Button style={styles.pickerButton} onPress={() => setVisibleTime(true)}>
         Pick Time: {time}
       </Button>
 
@@ -202,6 +201,9 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   input: {
+  },
+  pickerButton: {
+    textAlign: "left"
   }
 });
 const mapStateToProps = (state) => ({
