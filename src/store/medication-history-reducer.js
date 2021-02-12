@@ -1,0 +1,62 @@
+import { REACT_NATIVE_API } from '@env';
+import axios from 'axios';
+
+let initialState = {
+  medication_history: []
+}
+
+export const getAllMedHistory = (payload) => dispatch => {
+
+  axios.defaults.headers.common = { 'Authorization': `bearer ${payload.token}` }
+
+  return axios.get(REACT_NATIVE_API + `/api/v2/medication-history/user_id/${payload.id}`)
+
+    .then(response => {
+      response.data.forEach((item) => {
+        let dateString = item.date + ' ' + item.time_of_day;
+        item.dateTime = new Date(dateString);
+      });
+      const sortedMedHistory = response.data.slice().sort((a, b) => b.dateTime - a.dateTime)
+      dispatch(getMedHistory(sortedMedHistory));
+    })
+    .catch(error => console.error('get all failed', error))
+}
+
+const getMedHistory = payload => {
+  return {
+    type: 'GET-ALL',
+    payload: payload
+  }
+}
+
+export const addMedicationHistory = (newMedicationHistory, token) => dispatch => {
+  axios.defaults.headers.common = { 'Authorization': `bearer ${token}` }
+  // console.log(newMedicationHistory, token);
+  return axios.post(REACT_NATIVE_API + '/api/v2/medication-history',
+    newMedicationHistory)
+    .then((response) => {
+      // console.log(response.data);
+      dispatch(addMedHistory(response.data));
+    });
+}
+
+const addMedHistory = (newMedicationHistory) => {
+  return {
+    type: 'ADD-MEDHISTORY',
+    payload: newMedicationHistory
+  }
+}
+
+const medicationHistoryReducer = (state = initialState, action) => {
+  let { type, payload } = action;
+  switch (type) {
+    case 'GET-ALL':
+      return { medication_history: payload };
+    case 'ADD-MEDHISTORY':
+      return { medication_history: [...state.medication_history, payload] }
+    default:
+      return state;
+  }
+}
+
+export default medicationHistoryReducer;

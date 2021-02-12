@@ -1,44 +1,61 @@
 {
   "main": "index.js",
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "expo start --web",
-    "start": "react-native start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "test": "react-scripts test --env=jsdom-fourteen",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "expo eject",
+    "test": "jest"
   },
   "dependencies": {
-    "expo": "~40.0.0",
-    "expo-splash-screen": "~0.8.0",
-    "expo-status-bar": "~1.0.3",
-    "expo-updates": "~0.4.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "~0.63.4",
-    "react-native-gesture-handler": "~1.8.0",
-    "react-native-reanimated": "~1.13.0",
-    "react-native-screens": "~2.15.0",
-    "react-native-unimodules": "~0.12.0",
-    "react-native-web": "~0.13.12",
+    "@expo/metro-config": "^0.1.54",
+    "@react-native-async-storage/async-storage": "^1.13.4",
+    "@react-native-community/masked-view": "0.1.10",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "11.2.3",
     "@testing-library/user-event": "12.6.0",
     "axios": "^0.21.1",
+    "base-64": "^1.0.0",
+    "expo": "~40.0.0",
+    "expo-splash-screen": "~0.8.0",
+    "expo-status-bar": "~1.0.3",
+    "expo-updates": "^0.4.1",
+    "intl": "^1.2.5",
     "jsonwebtoken": "^8.5.1",
-    "node-sass": "^4.14.1"
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "^0.63.4",
+    "react-native-dotenv": "^2.5.1",
+    "react-native-gesture-handler": "~1.8.0",
+    "react-native-paper": "^4.7.1",
+    "react-native-paper-dates": "^0.2.15",
+    "react-native-paper-dropdown": "0.0.5",
+    "react-native-popup-dialog": "^0.18.3",
+    "react-native-reanimated": "~1.13.0",
+    "react-native-safe-area-context": "3.1.9",
+    "react-native-screens": "~2.15.2",
+    "react-native-unimodules": "~0.12.0",
+    "react-native-vector-icons": "^8.0.0",
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0",
+    "@babel/core": "^7.9.0",
     "babel-jest": "~25.2.6",
     "jest": "~25.2.6",
-    "react-test-renderer": "~16.13.1"
+    "jest-expo": "^40.0.2",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-test-renderer": "^16.13.1"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-expo"
   },
-  "private": true
+  "private": true,
+  "name": "pilpal",
+  "version": "1.0.0"
 }
