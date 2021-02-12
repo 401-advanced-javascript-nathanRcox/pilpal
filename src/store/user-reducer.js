@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REACT_NATIVE_API } from '@env';
+import { API_KEY as REACT_NATIVE_API } from '../../environmentVars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //user reducer

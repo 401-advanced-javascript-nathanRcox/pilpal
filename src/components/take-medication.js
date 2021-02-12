@@ -25,17 +25,16 @@ function TakeMedication(props) {
 
   const onDismissDate = React.useCallback(() => {
     setVisibleDate(false)
-  }, [setVisibleDate])
+  }, [setVisibleDate]);
 
   const onChangeDate = React.useCallback(({ date }) => {
     setVisibleDate(false)
     setDate(date.toLocaleDateString());
-    // console.log('DATE = ', date.toLocaleDateString())
-  }, [])
+  }, []);
 
   const onDismissTime = React.useCallback(() => {
     setVisibleTime(false)
-  }, [setVisibleTime])
+  }, [setVisibleTime]);
 
   const onConfirmTime = React.useCallback(
     ({ hours, minutes }) => {
@@ -50,8 +49,6 @@ function TakeMedication(props) {
     try {
       props.medications.medications.forEach((medication) => {
         if (medication.checked) {
-          // console.log({ medication });
-          // console.log({ token: props.user.token })
           props.addMedicationHistory({
             user_id: props.user.id,
             medication_id: medication._id,
@@ -62,7 +59,6 @@ function TakeMedication(props) {
           }, props.user.token);
         }
       });
-      // console.log('PROPS AFTER SAVING = ', props);
       props.changePage('Medication History');
     }
     catch (error) {
@@ -133,24 +129,6 @@ function TakeMedication(props) {
         </View>
       </View>
 
-      {/* <TextInput
-        label="Date"
-        value={date}
-        pointerEvents="none"
-        style={styles.input}
-        onPress={() => setVisibleDate(true)}
-        onChangeText={date => setDate(date)}
-      />
-
-      <TextInput
-        label="Time"
-        style={styles.input}
-        value={time}
-        pointerEvents="none"
-        onPress={() => setVisibleTime(true)}
-        onChangeText={time => setTime(time)}
-      /> */}
-
       <TextInput
         label="Notes"
         style={styles.input}
@@ -163,8 +141,6 @@ function TakeMedication(props) {
         {props.medications.medications.map(medication => (
           <Surface key={medication._id}>
             < Checkbox.Item
-              // {console.log()}
-
               status={medication.checked ? "checked" : "unchecked"}
               label={medication.name}
               style={styles.checkbox}

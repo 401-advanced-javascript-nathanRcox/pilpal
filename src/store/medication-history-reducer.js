@@ -1,4 +1,4 @@
-import { REACT_NATIVE_API } from '@env';
+import { API_KEY as REACT_NATIVE_API } from '../../environmentVars';
 import axios from 'axios';
 
 let initialState = {

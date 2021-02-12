@@ -1,5 +1,5 @@
-import { REACT_NATIVE_API } from '@env';
 import axios from 'axios';
+import { API_KEY as REACT_NATIVE_API } from '../../environmentVars';
 
 let initialState = {
   medications: []
