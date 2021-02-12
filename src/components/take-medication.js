@@ -92,7 +92,7 @@ function TakeMedication(props) {
   }, []);
 
   return (
-    <>
+    <ScrollView>
       <DatePickerModal
         mode="single"
         visible={visibleDate}
@@ -136,29 +136,31 @@ function TakeMedication(props) {
         onChangeText={note => setNote(note)}
       />
 
-      <ScrollView>
-        <Text style={styles.header}>Medications</Text>
-        {props.medications.medications.map(medication => (
-          <Surface key={medication._id}>
-            < Checkbox.Item
-              status={medication.checked ? "checked" : "unchecked"}
-              label={medication.name}
-              style={styles.checkbox}
-              onPress={() => {
-                toggleSelection(medication)
-              }} />
-          </Surface>
-        )
-        )}
-        <Text style={styles.error}>{errorMessage}</Text>
-        <Button style={styles.button} onPress={() => takeMedication()}>Save</Button>
-      </ScrollView>
+      <Text style={styles.header}>Medications</Text>
+      {props.medications.medications.map(medication => (
+        <Surface key={medication._id}>
+          < Checkbox.Item
+            status={medication.checked ? "checked" : "unchecked"}
+            label={medication.name}
+            style={styles.checkbox}
+            onPress={() => {
+              toggleSelection(medication)
+            }} />
+        </Surface>
+      )
+      )}
+      <Text style={styles.error}>{errorMessage}</Text>
+      <Button onPress={() => takeMedication()}>Save</Button>
+      <Text style={styles.spacer}></Text>
 
-    </>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
+  spacer: {
+    height: 100
+  },
   header: {
     marginTop: 5,
     paddingVertical: 5,

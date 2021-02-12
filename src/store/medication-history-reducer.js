@@ -71,7 +71,9 @@ const medicationHistoryReducer = (state = initialState, action) => {
     case 'GET-ALL':
       return payload;
     case 'ADD-MEDHISTORY':
-      return { medication_history: [...state.medication_history, payload] }
+      let updatedMedHistory = [...state.medication_history, payload];
+      let grouped = getGroupedByDate(updatedMedHistory)
+      return grouped;
     default:
       return state;
   }
