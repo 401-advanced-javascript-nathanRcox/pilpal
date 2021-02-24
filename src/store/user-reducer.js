@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REACT_NATIVE_API } from '@env';
+import { API_KEY as REACT_NATIVE_API } from '../../environmentVars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //user reducer
@@ -54,9 +54,9 @@ export const invalidateToken = () => {
   }
 }
 
-export const signUp = (newUser) => dispatch => {
+export const signUp = (newUser) => async dispatch => {
   // console.log('hello-world')
-  axios.post(REACT_NATIVE_API + '/signup', {
+  await axios.post(REACT_NATIVE_API + '/signup', {
     username: newUser.username,
     password: newUser.password,
     email: newUser.email,
@@ -69,9 +69,10 @@ export const signUp = (newUser) => dispatch => {
       storeToken(user.token, user.id);
       dispatch(getSignUp(user));
     })
-    .catch(error => {
-      console.log(error, 'unable to create a new account at this time')
-    });
+    // .catch(error => {
+    //   console.log(error, 'This username already exists, please choose another.')
+    //   throw error;
+    // });
 }
 
 const getSignUp = (newUser) => {

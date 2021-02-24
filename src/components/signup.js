@@ -26,15 +26,15 @@ function SignUp(props) {
         password,
         email
       });
-      console.log('User = ', props.user);
       // console.log('STATE AFTER SIGN UP', props.user);
-      if (props.user.token) {
+      // if (props.user.token) {
         props.changePage('Add Medication');
-      } else {
-        setErrorMessage('This username already exists.');
-      }
+      // } else {
+      //   setErrorMessage('This username already exists.');
+      // }
     }
     catch (error) {
+      console.log(error.message);
       setErrorMessage('This username already exists.');
     }
   }
