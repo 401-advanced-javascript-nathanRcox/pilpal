@@ -1,6 +1,6 @@
 # PilPal App
 
-## Author: Nathan Cox, Ashley Moore & Dina Ayoub
+## Authors: Nathan Cox, Ashley Moore & Dina Ayoub
 
 ## Deployed on 
 
