@@ -72,4 +72,4 @@
 
 ### Database modeling
 
-![Relational database][assets/relational_db.png]
+![Relational database](assets/relational_db.png)
